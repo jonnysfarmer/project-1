@@ -66,6 +66,8 @@ function game() {
   // ----------PACMAN---------------
 
   // Basic movement, create function for move left, right etc.
+  const scoreDisplay = document.querySelector('.score')
+  const lifeDisplay = document.querySelector('.life')
   let pacmanRow = 12
   let pacmanCell = 9
   let score = 0
@@ -75,14 +77,6 @@ function game() {
   function pacmanLeft(cellMove, rowMove) {
     if (board[rowMove][cellMove].classList.value === 'wall') {
       return
-    } else if (pacmanCell === 0) {
-      board[pacmanRow][pacmanCell].classList.remove('pacman')
-      board[rowMove][pacmanCell].classList.add('empty')
-      pacmanCell = 18
-      let value = NaN
-      board[rowMove][pacmanCell].classList.value = value
-      board[rowMove][pacmanCell].classList.remove(value)
-      board[rowMove][pacmanCell].classList.add('pacman')
     } else if (board[rowMove][cellMove].classList.value === 'fruit') {
       board[pacmanRow][pacmanCell].classList.remove('pacman')
       board[pacmanRow][pacmanCell].classList.add('empty')
@@ -97,7 +91,7 @@ function game() {
     } else if (board[rowMove][cellMove].classList.value === 'empty') {
       board[pacmanRow][pacmanCell].classList.remove('pacman')
       board[rowMove][cellMove].classList.remove('empty')
-      board[rowMove][pacmanCell].classList.add('empty')
+      board[pacmanRow][pacmanCell].classList.add('empty')
       pacmanCell = cellMove
       pacmanRow = rowMove
       board[rowMove][pacmanCell].classList.add('pacman')
@@ -113,85 +107,56 @@ function game() {
       // Add a new class that makes it FLASH
     } else if (board[rowMove][cellMove].classList.value === 'ghost') {
       board[pacmanRow][pacmanCell].classList.remove('pacman')
-      board[rowMove][pacmanCell].classList.add('empty')
-      pacmanCell = cellMove
-      pacmanRow = rowMove
-      board[rowMove][pacmanCell].classList.add('pacman')
-      life--
+      board[pacmanRow][pacmanCell].classList.add('empty')
+      pacmanCell = 9
+      pacmanRow = 12
+      board[pacmanRow][pacmanCell].classList.add('pacman')
+      life = life - 1
+      console.log(life)
       // Add something that ends the game
     }
-    return pacmanCell
+   
   }
 
   document.addEventListener('keyup', (e) => {
     console.log(e.key)
-    console.log(board[pacmanRow][pacmanCell - 1].classList)
+    // console.log(board[pacmanRow][pacmanCell - 1].classList)
     if (e.key === 'a') {
-      let cellMove = pacmanCell - 1
-      let rowMove = pacmanRow
-      pacmanLeft(cellMove, rowMove)
-      console.log('test')
+      if (pacmanCell === 0) {
+        let cellMove = 18
+        let rowMove = pacmanRow
+        pacmanLeft(cellMove, rowMove)
+      } else {
+        let cellMove = pacmanCell - 1
+        let rowMove = pacmanRow
+        pacmanLeft(cellMove, rowMove)
+      }
     } else if (e.key === 'd') {
-      let cellMove = pacmanCell + 1
-      let rowMove = pacmanRow
-      pacmanLeft(cellMove, rowMove)
-    } else if (e.key === 'w'){
+      if (pacmanCell === 18) {
+        let cellMove = 0
+        let rowMove = pacmanRow
+        pacmanLeft(cellMove, rowMove)
+      } else {
+        let cellMove = pacmanCell + 1
+        let rowMove = pacmanRow
+        pacmanLeft(cellMove, rowMove)
+      }
+    } else if (e.key === 'w') {
       let cellMove = pacmanCell
       let rowMove = pacmanRow - 1
       pacmanLeft(cellMove, rowMove)
-    } else if (e.key === 's'){
+    } else if (e.key === 's') {
       let cellMove = pacmanCell
       let rowMove = pacmanRow + 1
       pacmanLeft(cellMove, rowMove)
     }
+    scoreDisplay.innerHTML = `Your Score is : ${score}`
+    lifeDisplay.innerHTML = `Number of lives : ${life}`
   })
 
 
   // some Basic logic for left A
 
-/*
-if (board[pacmanRow][pacmanCell - 1].classList.value === 'wall') {
-        return
-      } else if (pacmanCell === 0) {
-        board[pacmanRow][pacmanCell].classList.remove('pacman')
-        board[pacmanRow][pacmanCell].classList.add('empty')
-        pacmanCell = 18
-        let value = NaN
-        board[pacmanRow][pacmanCell].classList.value = value
-        board[pacmanRow][pacmanCell].classList.remove(value)
-        board[pacmanRow][pacmanCell].classList.add('pacman')
-      } else if (board[pacmanRow][pacmanCell - 1].classList.value === 'fruit') {
-        board[pacmanRow][pacmanCell].classList.remove('pacman')
-        board[pacmanRow][pacmanCell - 1].classList.remove('fruit')
-        board[pacmanRow][pacmanCell - 1].innerHTML = ''
-        board[pacmanRow][pacmanCell].classList.add('empty')
-        pacmanCell = pacmanCell - 1
-        board[pacmanRow][pacmanCell].classList.add('pacman')
-        score++
-        console.log(score)
-      } else if (board[pacmanRow][pacmanCell - 1].classList.value === 'empty') {
-        board[pacmanRow][pacmanCell].classList.remove('pacman')
-        board[pacmanRow][pacmanCell - 1].classList.remove('empty')
-        board[pacmanRow][pacmanCell].classList.add('empty')
-        pacmanCell = pacmanCell - 1
-        board[pacmanRow][pacmanCell].classList.add('pacman')
-      } else if (board[pacmanRow][pacmanCell - 1].classList.value === 'pill') {
-        board[pacmanRow][pacmanCell].classList.remove('pacman')
-        board[pacmanRow][pacmanCell - 1].classList.remove('pill')
-        board[pacmanRow][pacmanCell].classList.add('empty')
-        pacmanCell = pacmanCell - 1
-        board[pacmanRow][pacmanCell].classList.add('pacman')
-        score = score + 10
-        console.log(score)
-        // Add a new class that makes it FLASH
-      } else if (board[pacmanRow][pacmanCell - 1].classList.value === 'ghost') {
-        board[pacmanRow][pacmanCell].classList.remove('pacman')
-        board[pacmanRow][pacmanCell].classList.add('empty')
-        pacmanCell = pacmanCell - 1
-        board[pacmanRow][pacmanCell].classList.add('pacman')
-        life--
-        // Add something that ends the game
-      } */
 
 
 

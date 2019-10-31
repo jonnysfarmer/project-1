@@ -1,0 +1,87 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  align-items: center;
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  margin: 0;
+  flex-direction: column
+}
+header {
+  height: 10%;
+  flex-direction: row;
+}
+main {
+  display: flex;
+  flex-direction: column;
+}
+
+.grid {
+  align-items: center;
+  /* box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2); */
+  display: flex;
+  flex-grow: 1;
+  flex-wrap: wrap;
+  height: 80%;
+  justify-content: center;
+  max-height: 350px;
+  max-width: 300px;
+}
+.results {
+  display: flex;
+  flex-direction: row;
+  align-content: space-between;
+}
+div {
+  display: flex;
+}
+div.results {
+  display: flex;
+  flex-direction: column;
+}
+   
+div .wall {
+  flex-grow: 1;
+  height: 15.78px;
+  width: 15.78px;
+  background-color: darkgrey;
+}
+div .fruit {
+  flex-grow: 1;
+  display: flex;
+  height: 15.78px;
+  width: 15.78px;
+  background-color: white;
+  font-size: 100%;
+  /* text-align: center;
+  align-content: center; */
+  justify-content: center;
+  align-items: center;
+}
+div .empty {
+  flex-grow: 1;
+  height: 15.78px;
+  width: 15.78px;
+  background-color: white;
+}
+div .ghost {
+  flex-grow: 1;
+  height: 15.78px;
+  width: 15.78px;
+  background-color: red;
+}
+div .pill {
+  flex-grow: 1;
+  height: 15.78px;
+  width: 15.78px;
+  background-color: pink;
+}
+div .pacman {
+  flex-grow: 1;
+  height: 15.78px;
+  width: 15.78px;
+  background-color: yellow
+}

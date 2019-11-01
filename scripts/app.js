@@ -1,5 +1,5 @@
 function game() {
-  // console.log('hello')
+  // This is the inital plan - ie. Level one.  With this we can change everything
   const pacmanBoard = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
@@ -11,7 +11,7 @@ function game() {
     [0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0],
     [2, 2, 2, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 2, 2, 2],
     [0, 0, 0, 0, 1, 0, 1, 0, 0, 3, 0, 0, 1, 0, 1, 0, 0, 0, 0],
-    [2, 2, 2, 2, 1, 1, 1, 0, 3, 3, 3, 0, 1, 1, 1, 2, 2, 2, 2],
+    [2, 2, 2, 2, 1, 1, 1, 0, 3, 2, 3, 0, 1, 1, 1, 2, 2, 2, 2],
     [0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0],
     [2, 2, 2, 0, 1, 0, 1, 1, 1, 5, 1, 1, 1, 0, 1, 0, 2, 2, 2],
     [0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0],
@@ -25,6 +25,7 @@ function game() {
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
   ]
 
+  // idea for design ‘Composition C (No.III) with Red, Yellow and Blue’ – Piet Mondrian, 1935
 
   //---------BOARD CREATION----------------
   const board = []
@@ -43,7 +44,8 @@ function game() {
       case 5: cell.classList.add('pacman'); break
     }
   }
-  // Creates the actualy board from array. Does each Row, then elements in that row
+  // Creates the actualy board from array. Does each Row, then elements in each cell 
+  //Then pushes to an array Board
   function createBoard() {
     pacmanBoard.forEach((ele, i) => {
       const row = document.createElement('div')
@@ -62,19 +64,27 @@ function game() {
     })
   }
   createBoard()
-  // console.log(board)
   // ----------PACMAN---------------
 
-  // Basic movement, create function for move left, right etc.
+  // Movement variables for Pacman
   const scoreDisplay = document.querySelector('.score')
   const lifeDisplay = document.querySelector('.life')
   let pacmanRow = 12
   let pacmanCell = 9
   let score = 0
   let life = 3
+  let pacIntervalID = NaN
+  const speed = 250
 
-  // move left function
-  function pacmanLeft(cellMove, rowMove) {
+  // move function
+  function pacmanMove(cellMove, rowMove, key) {
+    if (pacmanCell === 0 && key === 'a') {
+      cellMove = 18
+    }
+    if (pacmanCell === 18 && key === 'd') {
+      cellMove = 0
+    }
+    //The above 2 basically does the issue with the run around
     if (board[rowMove][cellMove].classList.value === 'wall') {
       return
     } else if (board[rowMove][cellMove].classList.value === 'fruit') {
@@ -86,8 +96,6 @@ function game() {
       pacmanRow = rowMove
       board[rowMove][pacmanCell].classList.add('pacman')
       score++
-      console.log(score)
-      console.log('test')
     } else if (board[rowMove][cellMove].classList.value === 'empty') {
       board[pacmanRow][pacmanCell].classList.remove('pacman')
       board[rowMove][cellMove].classList.remove('empty')
@@ -103,7 +111,6 @@ function game() {
       pacmanRow = rowMove
       board[rowMove][pacmanCell].classList.add('pacman')
       score = score + 10
-      console.log(score)
       // Add a new class that makes it FLASH
     } else if (board[rowMove][cellMove].classList.value === 'ghost') {
       board[pacmanRow][pacmanCell].classList.remove('pacman')
@@ -112,50 +119,65 @@ function game() {
       pacmanRow = 12
       board[pacmanRow][pacmanCell].classList.add('pacman')
       life = life - 1
-      console.log(life)
+      clearInterval(pacIntervalID)
       // Add something that ends the game
-    }
-   
-  }
-
-  document.addEventListener('keyup', (e) => {
-    console.log(e.key)
-    // console.log(board[pacmanRow][pacmanCell - 1].classList)
-    if (e.key === 'a') {
-      if (pacmanCell === 0) {
-        let cellMove = 18
-        let rowMove = pacmanRow
-        pacmanLeft(cellMove, rowMove)
-      } else {
-        let cellMove = pacmanCell - 1
-        let rowMove = pacmanRow
-        pacmanLeft(cellMove, rowMove)
-      }
-    } else if (e.key === 'd') {
-      if (pacmanCell === 18) {
-        let cellMove = 0
-        let rowMove = pacmanRow
-        pacmanLeft(cellMove, rowMove)
-      } else {
-        let cellMove = pacmanCell + 1
-        let rowMove = pacmanRow
-        pacmanLeft(cellMove, rowMove)
-      }
-    } else if (e.key === 'w') {
-      let cellMove = pacmanCell
-      let rowMove = pacmanRow - 1
-      pacmanLeft(cellMove, rowMove)
-    } else if (e.key === 's') {
-      let cellMove = pacmanCell
-      let rowMove = pacmanRow + 1
-      pacmanLeft(cellMove, rowMove)
     }
     scoreDisplay.innerHTML = `Your Score is : ${score}`
     lifeDisplay.innerHTML = `Number of lives : ${life}`
+  }
+
+  // Actual movement event listenter (a,w,d,s) and referrs to function pacmanMove
+  document.addEventListener('keyup', (e) => {
+    if (e.key === 'a') {
+      clearInterval(pacIntervalID)
+      pacIntervalID = setInterval(() => {
+        const key = 'a'
+        const cellMove = pacmanCell - 1
+        const rowMove = pacmanRow
+        pacmanMove(cellMove, rowMove, key)
+      }, speed)
+    } else if (e.key === 'd') {
+      clearInterval(pacIntervalID)
+      pacIntervalID = setInterval(() => {
+        const key = 'd'
+        const cellMove = pacmanCell + 1
+        const rowMove = pacmanRow
+        pacmanMove(cellMove, rowMove, key)
+      }, speed)
+    } else if (e.key === 'w') {
+      clearInterval(pacIntervalID)
+      pacIntervalID = setInterval(() => {
+        const cellMove = pacmanCell
+        const rowMove = pacmanRow - 1
+        pacmanMove(cellMove, rowMove)
+      }, speed)
+    } else if (e.key === 's') {
+      clearInterval(pacIntervalID)
+      pacIntervalID = setInterval(() => {
+        const cellMove = pacmanCell
+        const rowMove = pacmanRow + 1
+        pacmanMove(cellMove, rowMove)
+      }, speed)
+    }
   })
 
 
-  // some Basic logic for left A
+
+  // NEXT STEPS FOR PACMAN
+  //can do the smooth transition later
+  // do flashing  - some sort of background thing
+
+  // ------------GHOST
+
+  
+
+  //NEED TO DO
+  // start function
+  // end function
+  //new level
+
+  //GHOST IDEA
+  //can do a counter, which has 2 options when divisable by 2 % has 2 different options.  So mini patterns
 
 
 

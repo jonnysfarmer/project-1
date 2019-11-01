@@ -85,3 +85,8 @@ div .pacman {
   width: 15.78px;
   background-color: yellow
 }
+div .ghostBase {
+  flex-grow: 1;
+  height: 15.78px;
+  width: 15.78px;
+}

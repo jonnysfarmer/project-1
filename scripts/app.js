@@ -39,7 +39,10 @@ function game() {
         cell.innerHTML = '-'
       } break
       case 2: cell.classList.add('empty'); break
-      case 3: cell.classList.add('ghost'); break
+      case 3: {
+        cell.classList.add('ghost')
+        cell.classList.add('ghostBase')
+      } break
       case 4: cell.classList.add('pill'); break
       case 5: cell.classList.add('pacman'); break
     }
@@ -169,7 +172,276 @@ function game() {
 
   // ------------GHOST
 
-  
+  // Do a function for one Ghost first, we can always create a loop.  We can do an
+  // event listen when we start the game
+
+  // function, if pacmanRow > Ghost row.  Then move down.  If you cant, move left, then right, then up.
+  // then it checks for pacmancell > Ghost cell.  Then more right.  If not, down, up, left and so on...
+
+  let ghost1Row = 9
+  let ghost1Cell = 9
+  let ghost1History = []
+
+  // Ghost history is an array which means it can not go back on itself
+
+  // These are 4 functions, with the first move L, R, D, U
+  function ghostMoveULDR(ghostRow, ghostCell, ghostHistory) {
+    // move down first    
+    if (((board[ghostRow - 1][ghostCell].classList.value === 'empty') || (board[ghostRow - 1][ghostCell].classList.value === 'fruit') || (board[ghostRow - 1][ghostCell].classList.value === 'pill')) && ((ghostRow - 1 !== ghostHistory[0]))) {
+      board[ghostRow][ghostCell].classList.remove('ghost')
+      if (board[ghostRow][ghostCell].classList.value === '') {
+        board[ghostRow][ghostCell].classList.add('empty')
+      }
+      ghostHistory = []
+      ghostHistory.push(ghostRow, ghostCell)
+      ghostRow = ghostRow - 1
+      board[ghostRow][ghostCell].classList.add('ghost')
+    } else if (((board[ghostRow][ghostCell - 1].classList.value === 'empty') || (board[ghostRow][ghostCell - 1].classList.value === 'fruit') || (board[ghostRow][ghostCell - 1].classList.value === 'pill')) && (ghostCell - 1 !== ghostHistory[1])) {
+      board[ghostRow][ghostCell].classList.remove('ghost')
+      if (board[ghostRow][ghostCell].classList.value === '') {
+        board[ghostRow][ghostCell].classList.add('empty')
+      }
+      ghostHistory = []
+      ghostHistory.push(ghostRow, ghostCell)
+      ghostCell = ghostCell - 1
+      board[ghostRow][ghostCell].classList.add('ghost')
+    } else if (((board[ghostRow + 1][ghostCell].classList.value === 'empty') || (board[ghostRow + 1][ghostCell].classList.value === 'fruit') || (board[ghostRow + 1][ghostCell].classList.value === 'pill')) && (ghostRow + 1 !== ghostHistory[0])) {
+      board[ghostRow][ghostCell].classList.remove('ghost')
+      if (board[ghostRow][ghostCell].classList.value === '') {
+        board[ghostRow][ghostCell].classList.add('empty')
+      }
+      ghostHistory = []
+      ghostHistory.push(ghostRow, ghostCell)
+      ghostRow = ghostRow + 1
+      board[ghostRow][ghostCell].classList.add('ghost')
+    } else if (((board[ghostRow][ghostCell + 1].classList.value === 'empty') || (board[ghostRow][ghostCell + 1].classList.value === 'fruit') || (board[ghostRow][ghostCell + 1].classList.value === 'pill')) && (ghostCell + 1 !== ghostHistory[1])) {
+      board[ghostRow][ghostCell].classList.remove('ghost')
+      if (board[ghostRow][ghostCell].classList.value === '') {
+        board[ghostRow][ghostCell].classList.add('empty')
+      }
+      ghostHistory = []
+      ghostHistory.push(ghostRow, ghostCell)
+      ghostCell = ghostCell + 1
+      board[ghostRow][ghostCell].classList.add('ghost')
+    } else {
+      console.log('fail')
+    }
+    ghost1Row = ghostRow
+    ghost1Cell = ghostCell
+    ghost1History = ghostHistory
+
+    // console.log([[ghostRow + 1],[ghostCell]])
+  }
+  function ghostMoveLDRU(ghostRow, ghostCell, ghostHistory) {
+    if (((board[ghostRow][ghostCell - 1].classList.value === 'empty') || (board[ghostRow][ghostCell - 1].classList.value === 'fruit') || (board[ghostRow][ghostCell - 1].classList.value === 'pill')) && (ghostCell - 1 !== ghostHistory[1])) {
+      board[ghostRow][ghostCell].classList.remove('ghost')
+      if (board[ghostRow][ghostCell].classList.value === '') {
+        board[ghostRow][ghostCell].classList.add('empty')
+      }
+      ghostHistory = []
+      ghostHistory.push(ghostRow, ghostCell)
+      ghostCell = ghostCell - 1
+      board[ghostRow][ghostCell].classList.add('ghost')
+    } else if (((board[ghostRow + 1][ghostCell].classList.value === 'empty') || (board[ghostRow + 1][ghostCell].classList.value === 'fruit') || (board[ghostRow + 1][ghostCell].classList.value === 'pill')) && (ghostRow + 1 !== ghostHistory[0])) {
+      board[ghostRow][ghostCell].classList.remove('ghost')
+      if (board[ghostRow][ghostCell].classList.value === '') {
+        board[ghostRow][ghostCell].classList.add('empty')
+      }
+      ghostHistory = []
+      ghostHistory.push(ghostRow, ghostCell)
+      ghostRow = ghostRow + 1
+      board[ghostRow][ghostCell].classList.add('ghost')
+    } else if (((board[ghostRow][ghostCell + 1].classList.value === 'empty') || (board[ghostRow][ghostCell + 1].classList.value === 'fruit') || (board[ghostRow][ghostCell + 1].classList.value === 'pill')) && (ghostCell + 1 !== ghostHistory[1])) {
+      board[ghostRow][ghostCell].classList.remove('ghost')
+      if (board[ghostRow][ghostCell].classList.value === '') {
+        board[ghostRow][ghostCell].classList.add('empty')
+      }
+      ghostHistory = []
+      ghostHistory.push(ghostRow, ghostCell)
+      ghostCell = ghostCell + 1
+      board[ghostRow][ghostCell].classList.add('ghost')
+    } else if (((board[ghostRow - 1][ghostCell].classList.value === 'empty') || (board[ghostRow - 1][ghostCell].classList.value === 'fruit') || (board[ghostRow - 1][ghostCell].classList.value === 'pill')) && ((ghostRow - 1 !== ghostHistory[0]))) {
+      board[ghostRow][ghostCell].classList.remove('ghost')
+      if (board[ghostRow][ghostCell].classList.value === '') {
+        board[ghostRow][ghostCell].classList.add('empty')
+      }
+      ghostHistory = []
+      ghostHistory.push(ghostRow, ghostCell)
+      ghostRow = ghostRow - 1
+      board[ghostRow][ghostCell].classList.add('ghost')
+    } else {
+      console.log('fail')
+    }
+    ghost1Row = ghostRow
+    ghost1Cell = ghostCell
+    ghost1History = ghostHistory
+
+    // console.log([[ghostRow + 1],[ghostCell]])
+  }
+  function ghostMoveDRUL(ghostRow, ghostCell, ghostHistory) {
+    if (((board[ghostRow + 1][ghostCell].classList.value === 'empty') || (board[ghostRow + 1][ghostCell].classList.value === 'fruit') || (board[ghostRow + 1][ghostCell].classList.value === 'pill')) && (ghostRow + 1 !== ghostHistory[0])) {
+      board[ghostRow][ghostCell].classList.remove('ghost')
+      if (board[ghostRow][ghostCell].classList.value === '') {
+        board[ghostRow][ghostCell].classList.add('empty')
+      }
+      ghostHistory = []
+      ghostHistory.push(ghostRow, ghostCell)
+      ghostRow = ghostRow + 1
+      board[ghostRow][ghostCell].classList.add('ghost')
+    } else if (((board[ghostRow][ghostCell + 1].classList.value === 'empty') || (board[ghostRow][ghostCell + 1].classList.value === 'fruit') || (board[ghostRow][ghostCell + 1].classList.value === 'pill')) && (ghostCell + 1 !== ghostHistory[1])) {
+      board[ghostRow][ghostCell].classList.remove('ghost')
+      if (board[ghostRow][ghostCell].classList.value === '') {
+        board[ghostRow][ghostCell].classList.add('empty')
+      }
+      ghostHistory = []
+      ghostHistory.push(ghostRow, ghostCell)
+      ghostCell = ghostCell + 1
+      board[ghostRow][ghostCell].classList.add('ghost')
+    } else if (((board[ghostRow - 1][ghostCell].classList.value === 'empty') || (board[ghostRow - 1][ghostCell].classList.value === 'fruit') || (board[ghostRow - 1][ghostCell].classList.value === 'pill')) && ((ghostRow - 1 !== ghostHistory[0]))) {
+      board[ghostRow][ghostCell].classList.remove('ghost')
+      if (board[ghostRow][ghostCell].classList.value === '') {
+        board[ghostRow][ghostCell].classList.add('empty')
+      }
+      ghostHistory = []
+      ghostHistory.push(ghostRow, ghostCell)
+      ghostRow = ghostRow - 1
+      board[ghostRow][ghostCell].classList.add('ghost')
+    } else if (((board[ghostRow][ghostCell - 1].classList.value === 'empty') || (board[ghostRow][ghostCell - 1].classList.value === 'fruit') || (board[ghostRow][ghostCell - 1].classList.value === 'pill')) && (ghostCell - 1 !== ghostHistory[1])) {
+      board[ghostRow][ghostCell].classList.remove('ghost')
+      if (board[ghostRow][ghostCell].classList.value === '') {
+        board[ghostRow][ghostCell].classList.add('empty')
+      }
+      ghostHistory = []
+      ghostHistory.push(ghostRow, ghostCell)
+      ghostCell = ghostCell - 1
+      board[ghostRow][ghostCell].classList.add('ghost')
+    } else {
+      console.log('fail')
+    }
+    ghost1Row = ghostRow
+    ghost1Cell = ghostCell
+    ghost1History = ghostHistory
+
+    // console.log([[ghostRow + 1],[ghostCell]])
+  }
+  function ghostMoveRUDL(ghostRow, ghostCell, ghostHistory) {
+    if (((board[ghostRow][ghostCell + 1].classList.value === 'empty') || (board[ghostRow][ghostCell + 1].classList.value === 'fruit') || (board[ghostRow][ghostCell + 1].classList.value === 'pill')) && (ghostCell + 1 !== ghostHistory[1])) {
+      board[ghostRow][ghostCell].classList.remove('ghost')
+      if (board[ghostRow][ghostCell].classList.value === '') {
+        board[ghostRow][ghostCell].classList.add('empty')
+      }
+      ghostHistory = []
+      ghostHistory.push(ghostRow, ghostCell)
+      ghostCell = ghostCell + 1
+      board[ghostRow][ghostCell].classList.add('ghost')
+    } else if (((board[ghostRow - 1][ghostCell].classList.value === 'empty') || (board[ghostRow - 1][ghostCell].classList.value === 'fruit') || (board[ghostRow - 1][ghostCell].classList.value === 'pill')) && ((ghostRow - 1 !== ghostHistory[0]))) {
+      board[ghostRow][ghostCell].classList.remove('ghost')
+      if (board[ghostRow][ghostCell].classList.value === '') {
+        board[ghostRow][ghostCell].classList.add('empty')
+      }
+      ghostHistory = []
+      ghostHistory.push(ghostRow, ghostCell)
+      ghostRow = ghostRow - 1
+      board[ghostRow][ghostCell].classList.add('ghost')
+    } else if (((board[ghostRow][ghostCell - 1].classList.value === 'empty') || (board[ghostRow][ghostCell - 1].classList.value === 'fruit') || (board[ghostRow][ghostCell - 1].classList.value === 'pill')) && (ghostCell - 1 !== ghostHistory[1])) {
+      board[ghostRow][ghostCell].classList.remove('ghost')
+      if (board[ghostRow][ghostCell].classList.value === '') {
+        board[ghostRow][ghostCell].classList.add('empty')
+      }
+      ghostHistory = []
+      ghostHistory.push(ghostRow, ghostCell)
+      ghostCell = ghostCell - 1
+      board[ghostRow][ghostCell].classList.add('ghost')
+    } else if (((board[ghostRow + 1][ghostCell].classList.value === 'empty') || (board[ghostRow + 1][ghostCell].classList.value === 'fruit') || (board[ghostRow + 1][ghostCell].classList.value === 'pill')) && (ghostRow + 1 !== ghostHistory[0])) {
+      board[ghostRow][ghostCell].classList.remove('ghost')
+      if (board[ghostRow][ghostCell].classList.value === '') {
+        board[ghostRow][ghostCell].classList.add('empty')
+      }
+      ghostHistory = []
+      ghostHistory.push(ghostRow, ghostCell)
+      ghostRow = ghostRow + 1
+      board[ghostRow][ghostCell].classList.add('ghost')
+    } else {
+      console.log('fail')
+    }
+    ghost1Row = ghostRow
+    ghost1Cell = ghostCell
+    ghost1History = ghostHistory
+  }
+  // This function allows the ghost to chase.  It basically chases Vertically then Horizontally each time!
+  function ghostChase() {
+    let ghostRow = ghost1Row
+    let ghostCell = ghost1Cell
+    let ghostHistory = ghost1History
+    ghostMoveULDR(ghostRow, ghostCell, ghostHistory)
+    setInterval(() => {
+      let ghostRow = ghost1Row
+      let ghostCell = ghost1Cell
+      let ghostHistory = ghost1History
+      let counter = 0
+      if (counter % 2 === 0) {
+        if (ghostRow > pacmanRow) {
+          ghostMoveULDR(ghostRow, ghostCell, ghostHistory)
+          // ghost1Row = ghostRow
+          // ghost1Cell = ghostCell
+          // ghost1History = ghostHistory
+          counter ++
+        } else {
+          ghostMoveDRUL(ghostRow, ghostCell, ghostHistory)
+          counter ++
+        }
+      } else {
+        if (ghostcell > pacmanCell) {
+          ghostMoveRUDL(ghostRow, ghostCell, ghostHistory)
+          counter ++
+        } else {
+          ghostMoveLDRU(ghostRow, ghostCell, ghostHistory)
+          counter ++
+        }
+      } 
+    }, 300)
+  }
+
+  ghostChase()
+
+
+  // setInterval(() => {
+  //   let ghostRow = ghost1Row
+  //   let ghostCell = ghost1Cell
+  //   let ghostHistory = ghost1History
+  //   ghostMoveLDRU(ghost1Row, ghostCell, ghostHistory)
+  // }, 1000)
+
+  // ghost1Move()
+
+  /*
+  if (board[rowMove][cellMove].classList.value === 'wall') {
+      return
+    } else if (board[rowMove][cellMove].classList.value === 'fruit') {
+      board[pacmanRow][pacmanCell].classList.remove('pacman')
+      board[pacmanRow][pacmanCell].classList.add('empty')
+      board[rowMove][cellMove].classList.remove('fruit')
+      board[rowMove][cellMove].innerHTML = ''
+      pacmanCell = cellMove
+      pacmanRow = rowMove
+      board[rowMove][pacmanCell].classList.add('pacman')
+      score++
+    } else if (board[rowMove][cellMove].classList.value === 'empty') {
+      board[pacmanRow][pacmanCell].classList.remove('pacman')
+      board[rowMove][cellMove].classList.remove('empty')
+      board[pacmanRow][pacmanCell].classList.add('empty')
+      pacmanCell = cellMove
+      pacmanRow = rowMove
+      board[rowMove][pacmanCell].classList.add('pacman')
+    } else if (board[rowMove][cellMove].classList.value === 'pill') {
+      board[pacmanRow][pacmanCell].classList.remove('pacman')
+      board[rowMove][cellMove].classList.remove('pill')
+      board[pacmanRow][pacmanCell].classList.add('empty')
+      pacmanCell = cellMove
+      pacmanRow = rowMove
+      board[rowMove][pacmanCell].classList.add('pacman')
+      score = score + 10
+      */
 
   //NEED TO DO
   // start function

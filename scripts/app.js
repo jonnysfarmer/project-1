@@ -428,7 +428,7 @@ function game() {
         let ghostHistory = ele[2]
         let counter = 0
         if (ghostRow === pacmanRow) {
-          if (ghostCell > pacmanCell) {
+          if (ghostCell < pacmanCell) {
             ghostMoveRUDL(ghostRow, ghostCell, ghostHistory, ele)
             counter ++
           } else {
@@ -436,10 +436,10 @@ function game() {
             counter ++
           }
         } else if (counter % 2 === 1) {
-          if (ghostCell > pacmanCell) {
+          if (ghostCell < pacmanCell) {
             ghostMoveRUDL(ghostRow, ghostCell, ghostHistory, ele)
             counter++
-          } else if (ghostCell < pacmanCell) {
+          } else if (ghostCell > pacmanCell) {
             ghostMoveLDRU(ghostRow, ghostCell, ghostHistory, ele)
             counter++
           } 
@@ -470,54 +470,21 @@ function game() {
 
 
   ghostChase2()
+  //this logic is pretty good.
 
-
-  // setInterval(() => {
-  //   let ghostRow = ghost1Row
-  //   let ghostCell = ghost1Cell
-  //   let ghostHistory = ghost1History
-  //   ghostMoveLDRU(ghost1Row, ghostCell, ghostHistory)
-  // }, 1000)
-
-  // ghost1Move()
-
-  /*
-  if (board[rowMove][cellMove].classList.value === 'wall') {
-      return
-    } else if (board[rowMove][cellMove].classList.value === 'fruit') {
-      board[pacmanRow][pacmanCell].classList.remove('pacman')
-      board[pacmanRow][pacmanCell].classList.add('empty')
-      board[rowMove][cellMove].classList.remove('fruit')
-      board[rowMove][cellMove].innerHTML = ''
-      pacmanCell = cellMove
-      pacmanRow = rowMove
-      board[rowMove][pacmanCell].classList.add('pacman')
-      score++
-    } else if (board[rowMove][cellMove].classList.value === 'empty') {
-      board[pacmanRow][pacmanCell].classList.remove('pacman')
-      board[rowMove][cellMove].classList.remove('empty')
-      board[pacmanRow][pacmanCell].classList.add('empty')
-      pacmanCell = cellMove
-      pacmanRow = rowMove
-      board[rowMove][pacmanCell].classList.add('pacman')
-    } else if (board[rowMove][cellMove].classList.value === 'pill') {
-      board[pacmanRow][pacmanCell].classList.remove('pacman')
-      board[rowMove][cellMove].classList.remove('pill')
-      board[pacmanRow][pacmanCell].classList.add('empty')
-      pacmanCell = cellMove
-      pacmanRow = rowMove
-      board[rowMove][pacmanCell].classList.add('pacman')
-      score = score + 10
-      */
+  //  need to reverse when pacman has a new class
+  // need to do the interaction when hits pacman - Pacman loose life
+  // maybe place the ghosts at different locations
+  // if ghost hits ghost - goes backwards (need to look at how this works?  Maybe change reverse array?)
+  // maybe try the logic of u LR d.  Might work better but this is quite randomised which is nice.  Hard but not too hard
+  
 
   //NEED TO DO
   // start function
   // end function
-  //new level
+  // new level ??
 
-  //GHOST IDEA
-  //can do a counter, which has 2 options when divisable by 2 % has 2 different options.  So mini patterns
-
+  
 
 
 

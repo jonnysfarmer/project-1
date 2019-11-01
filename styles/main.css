@@ -67,7 +67,7 @@ div .empty {
   width: 15.78px;
   background-color: white;
 }
-div .ghost {
+div div .ghost {
   flex-grow: 1;
   height: 15.78px;
   width: 15.78px;

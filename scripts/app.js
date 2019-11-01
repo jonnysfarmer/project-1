@@ -10,8 +10,8 @@ function game() {
     [0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0],
     [0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0],
     [2, 2, 2, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 2, 2, 2],
-    [0, 0, 0, 0, 1, 0, 1, 1, 1, 3, 1, 1, 1, 0, 1, 0, 0, 0, 0],
-    [2, 2, 2, 2, 1, 1, 1, 1, 3, 2, 3, 1, 1, 1, 1, 2, 2, 2, 2],
+    [0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0],
+    [2, 2, 2, 2, 1, 1, 1, 1, 3, 3, 3, 1, 1, 1, 1, 2, 2, 2, 2],
     [0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0],
     [2, 2, 2, 0, 1, 0, 1, 1, 1, 5, 1, 1, 1, 0, 1, 0, 2, 2, 2],
     [0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0],
@@ -41,7 +41,7 @@ function game() {
       case 2: cell.classList.add('empty'); break
       case 3: {
         cell.classList.add('ghost')
-        cell.classList.add('fruit')
+        cell.classList.add('ghostBase')
       } break
       case 4: cell.classList.add('pill'); break
       case 5: cell.classList.add('pacman'); break
@@ -183,14 +183,15 @@ function game() {
   let ghost1History = []
   //ghost array for ghost 2 and 3!
   let ghostAray = [
-    [10, 8, []],
-    [10, 10, []]
+    [10, 9, [10, 9]],
+    [10, 8, [10, 8]],
+    [10, 10, [10, 10]]
   ]
 
   // Ghost history is an array which means it can not go back on itself
 
   // These are 4 functions, with the first move L, R, D, U
-  function ghostMoveULDR(ghostRow, ghostCell, ghostHistory) {
+  function ghostMoveULDR(ghostRow, ghostCell, ghostHistory, ele) {
     // move down first    
     if (((board[ghostRow - 1][ghostCell].classList.value === 'empty') || (board[ghostRow - 1][ghostCell].classList.value === 'fruit') || (board[ghostRow - 1][ghostCell].classList.value === 'pill')) && ((ghostRow - 1 !== ghostHistory[0]))) {
       board[ghostRow][ghostCell].classList.remove('ghost')
@@ -231,13 +232,13 @@ function game() {
     } else {
       console.log('fail')
     }
-    ghost1Row = ghostRow
-    ghost1Cell = ghostCell
-    ghost1History = ghostHistory
+    ele[0] = ghostRow
+    ele[1] = ghostCell
+    ele[2] = ghostHistory
 
     // console.log([[ghostRow + 1],[ghostCell]])
   }
-  function ghostMoveLDRU(ghostRow, ghostCell, ghostHistory) {
+  function ghostMoveLDRU(ghostRow, ghostCell, ghostHistory, ele) {
     if (((board[ghostRow][ghostCell - 1].classList.value === 'empty') || (board[ghostRow][ghostCell - 1].classList.value === 'fruit') || (board[ghostRow][ghostCell - 1].classList.value === 'pill')) && (ghostCell - 1 !== ghostHistory[1])) {
       board[ghostRow][ghostCell].classList.remove('ghost')
       if (board[ghostRow][ghostCell].classList.value === '') {
@@ -277,13 +278,13 @@ function game() {
     } else {
       console.log('fail')
     }
-    ghost1Row = ghostRow
-    ghost1Cell = ghostCell
-    ghost1History = ghostHistory
+    ele[0] = ghostRow
+    ele[1] = ghostCell
+    ele[2] = ghostHistory
 
     // console.log([[ghostRow + 1],[ghostCell]])
   }
-  function ghostMoveDRUL(ghostRow, ghostCell, ghostHistory) {
+  function ghostMoveDRUL(ghostRow, ghostCell, ghostHistory, ele) {
     if (((board[ghostRow + 1][ghostCell].classList.value === 'empty') || (board[ghostRow + 1][ghostCell].classList.value === 'fruit') || (board[ghostRow + 1][ghostCell].classList.value === 'pill')) && (ghostRow + 1 !== ghostHistory[0])) {
       board[ghostRow][ghostCell].classList.remove('ghost')
       if (board[ghostRow][ghostCell].classList.value === '') {
@@ -323,13 +324,13 @@ function game() {
     } else {
       console.log('fail')
     }
-    ghost1Row = ghostRow
-    ghost1Cell = ghostCell
-    ghost1History = ghostHistory
+    ele[0] = ghostRow
+    ele[1] = ghostCell
+    ele[2] = ghostHistory
 
     // console.log([[ghostRow + 1],[ghostCell]])
   }
-  function ghostMoveRUDL(ghostRow, ghostCell, ghostHistory) {
+  function ghostMoveRUDL(ghostRow, ghostCell, ghostHistory, ele) {
     if (((board[ghostRow][ghostCell + 1].classList.value === 'empty') || (board[ghostRow][ghostCell + 1].classList.value === 'fruit') || (board[ghostRow][ghostCell + 1].classList.value === 'pill')) && (ghostCell + 1 !== ghostHistory[1])) {
       board[ghostRow][ghostCell].classList.remove('ghost')
       if (board[ghostRow][ghostCell].classList.value === '') {
@@ -369,59 +370,106 @@ function game() {
     } else {
       console.log('fail')
     }
-    ghost1Row = ghostRow
-    ghost1Cell = ghostCell
-    ghost1History = ghostHistory
-  }
-  // This function allows the ghost to chase.  It basically chases Vertically then Horizontally each time!
-  // the logic is.  takes it in turn to move up / down.  Unless it is on the same plane - then mvoes towards it
-  function ghostChase() {
-    let ghostRow = ghost1Row
-    let ghostCell = ghost1Cell
-    let ghostHistory = ghost1History
-    ghostMoveULDR(ghostRow, ghostCell, ghostHistory)
-    setInterval(() => {
-      let ghostRow = ghost1Row
-      let ghostCell = ghost1Cell
-      let ghostHistory = ghost1History
-      let counter = 0
-      if (counter % 2 === 0) {
-        if (ghostRow > pacmanRow) {
-          ghostMoveULDR(ghostRow, ghostCell, ghostHistory)
-          counter ++
-        } else if (ghostRow < pacmanRow) {
-          ghostMoveDRUL(ghostRow, ghostCell, ghostHistory)
-          counter ++
-        } else if (ghostRow === pacmanRow) {
-          if (ghostCell > pacmanCell) {
-            ghostMoveRUDL(ghostRow, ghostCell, ghostHistory)
-            counter ++
-          } else {
-            ghostMoveLDRU(ghostRow, ghostCell, ghostHistory)
-            counter ++
-          }
-        }
-      } else {
-        if (ghostCell > pacmanCell) {
-          ghostMoveRUDL(ghostRow, ghostCell, ghostHistory)
-          counter ++
-        } else if (ghostCell < pacmanCell) {
-          ghostMoveLDRU(ghostRow, ghostCell, ghostHistory)
-          counter ++
-        } else if (ghostCell === pacmanCell) {
-          if (ghostRow > pacmanRow) {
-            ghostMoveULDR(ghostRow, ghostCell, ghostHistory)
-            counter ++
-          } else if (ghostRow < pacmanRow) {
-            ghostMoveDRUL(ghostRow, ghostCell, ghostHistory)
-            counter ++
-          }
-        }
-      } 
-    }, 300)
+    ele[0] = ghostRow
+    ele[1] = ghostCell
+    ele[2] = ghostHistory
   }
 
-  ghostChase()
+  function ghostChase1() {
+    ghostAray.forEach((ele) => {
+      setInterval(() => {
+        let ghostRow = ele[0]
+        let ghostCell = ele[1]
+        let ghostHistory = ele[2]
+        let counter = 0
+        if (counter % 2 === 0) {
+          if (ghostRow > pacmanRow) {
+            ghostMoveULDR(ghostRow, ghostCell, ghostHistory, ele)
+            counter++
+          } else if (ghostRow < pacmanRow) {
+            ghostMoveDRUL(ghostRow, ghostCell, ghostHistory, ele)
+            counter++
+          } else if (ghostRow === pacmanRow) {
+            if (ghostCell > pacmanCell) {
+              ghostMoveRUDL(ghostRow, ghostCell, ghostHistory, ele)
+              counter++
+            } else {
+              ghostMoveLDRU(ghostRow, ghostCell, ghostHistory, ele)
+              counter++
+            }
+          }
+        } else {
+          if (ghostCell > pacmanCell) {
+            ghostMoveRUDL(ghostRow, ghostCell, ghostHistory, ele)
+            counter++
+          } else if (ghostCell < pacmanCell) {
+            ghostMoveLDRU(ghostRow, ghostCell, ghostHistory, ele)
+            counter++
+          } else if (ghostCell === pacmanCell) {
+            if (ghostRow > pacmanRow) {
+              ghostMoveULDR(ghostRow, ghostCell, ghostHistory, ele)
+              counter++
+            } else if (ghostRow < pacmanRow) {
+              ghostMoveDRUL(ghostRow, ghostCell, ghostHistory, ele)
+              counter++
+            }
+          }
+        }
+      }, 300)
+    })
+  }
+
+  // imrpoved chasing logic.  Need to improve it incase them come into contact with one another
+  function ghostChase2() {
+    ghostAray.forEach((ele) => {
+      setInterval(() => {
+        let ghostRow = ele[0]
+        let ghostCell = ele[1]
+        let ghostHistory = ele[2]
+        let counter = 0
+        if (ghostRow === pacmanRow) {
+          if (ghostCell > pacmanCell) {
+            ghostMoveRUDL(ghostRow, ghostCell, ghostHistory, ele)
+            counter ++
+          } else {
+            ghostMoveLDRU(ghostRow, ghostCell, ghostHistory, ele)
+            counter ++
+          }
+        } else if (counter % 2 === 1) {
+          if (ghostCell > pacmanCell) {
+            ghostMoveRUDL(ghostRow, ghostCell, ghostHistory, ele)
+            counter++
+          } else if (ghostCell < pacmanCell) {
+            ghostMoveLDRU(ghostRow, ghostCell, ghostHistory, ele)
+            counter++
+          } 
+        }
+        if (ghostCell === pacmanCell) {
+          if (ghostRow > pacmanRow) {
+            ghostMoveULDR(ghostRow, ghostCell, ghostHistory, ele)
+            counter ++
+          } else {
+            ghostMoveDRUL(ghostRow, ghostCell, ghostHistory, ele)
+            counter ++
+          }
+        } else if (counter % 2 === 0) {
+          if (ghostRow > pacmanRow) {
+            ghostMoveULDR(ghostRow, ghostCell, ghostHistory, ele)
+            counter++
+          } else {
+            ghostMoveDRUL(ghostRow, ghostCell, ghostHistory, ele)
+            counter++
+          } 
+       
+          
+        }
+      }, 300)
+    })
+  }
+
+
+
+  ghostChase2()
 
 
   // setInterval(() => {

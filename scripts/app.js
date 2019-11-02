@@ -69,6 +69,8 @@ function game() {
   createBoard()
   // ----------PACMAN---------------
 
+
+
   // Movement variables for Pacman
   const scoreDisplay = document.querySelector('.score')
   const lifeDisplay = document.querySelector('.life')
@@ -78,6 +80,15 @@ function game() {
   let life = 3
   let pacIntervalID = NaN
   const speed = 250
+  let ghostIntervalID = NaN
+
+  function endGame() {
+    if (life <= 0) {
+      clearInterval(pacIntervalID)
+      clearInterval(ghostIntervalID)
+      console.log('game over')
+    }
+  }
 
   // move function
   function pacmanMove(cellMove, rowMove, key) {
@@ -115,7 +126,7 @@ function game() {
       board[rowMove][pacmanCell].classList.add('pacman')
       score = score + 10
       // Add a new class that makes it FLASH
-    } else if (board[rowMove][cellMove].classList.value === 'ghost') {
+    } else if (board[rowMove][cellMove].classList.value === 'empty ghost' || board[rowMove][cellMove].classList.value === 'fruit ghost' || board[rowMove][cellMove].classList.value === 'pill ghost') {
       board[pacmanRow][pacmanCell].classList.remove('pacman')
       board[pacmanRow][pacmanCell].classList.add('empty')
       pacmanCell = 9
@@ -123,6 +134,7 @@ function game() {
       board[pacmanRow][pacmanCell].classList.add('pacman')
       life = life - 1
       clearInterval(pacIntervalID)
+      // endGame()
       // Add something that ends the game
     }
     scoreDisplay.innerHTML = `Your Score is : ${score}`
@@ -181,18 +193,19 @@ function game() {
   let ghost1Row = 9
   let ghost1Cell = 9
   let ghost1History = []
-  //ghost array for ghost 2 and 3!
+  //ghost array for ghost 1, 2 and 3!  They go Ghost Cell, Ghost Row, Ghost History, Nan is to clear the timers, Speec
   let ghostAray = [
-    [10, 9, [10, 9]],
-    [10, 8, [10, 8]],
-    [10, 10, [10, 10]]
+    [10, 9, [10, 9], NaN, 325],
+    [10, 8, [10, 8], NaN, 350],
+    [10, 10, [10, 10], NaN, 400]
   ]
 
   // Ghost history is an array which means it can not go back on itself
 
-  // These are 4 functions, with the first move L, R, D, U
+  // These are 4 functions, with the first move L, R, D, U - then function if it comes across Pacman or comes accross another Ghost
   function ghostMoveULDR(ghostRow, ghostCell, ghostHistory, ele) {
-    // move down first    
+ 
+
     if (((board[ghostRow - 1][ghostCell].classList.value === 'empty') || (board[ghostRow - 1][ghostCell].classList.value === 'fruit') || (board[ghostRow - 1][ghostCell].classList.value === 'pill')) && ((ghostRow - 1 !== ghostHistory[0]))) {
       board[ghostRow][ghostCell].classList.remove('ghost')
       if (board[ghostRow][ghostCell].classList.value === '') {
@@ -229,9 +242,32 @@ function game() {
       ghostHistory.push(ghostRow, ghostCell)
       ghostCell = ghostCell + 1
       board[ghostRow][ghostCell].classList.add('ghost')
+    } else if ((board[ghostRow - 1][ghostCell].classList.value === 'pacman')) {
+      board[ghostRow][ghostCell].classList.remove('ghost')
+      ghostHistory = []
+      ghostHistory.push(ghostRow, ghostCell)
+      ghostRow = ghostRow - 1
+      board[ghostRow][ghostCell].classList.remove('pacman')
+      board[ghostRow][ghostCell].classList.add('ghost')
+      pacmanCell = 9
+      pacmanRow = 12
+      board[pacmanRow][pacmanCell].classList.add('pacman')
+      life = life - 1
+      clearInterval(pacIntervalID)
+      // endGame()
+      console.log('pacman Up')
+    } else if ((board[ghostRow - 1][ghostCell].classList.value === 'empty ghost' || board[ghostRow - 1][ghostCell].classList.value === 'fruit ghost' || board[ghostRow - 1][ghostCell].classList.value === 'pill ghost')) {
+      board[ghostRow][ghostCell].classList.remove('ghost')
+      ghostHistory = []
+      ghostHistory.push(ghostRow, ghostCell)
+      ghostRow = ghostRow + 1
+      board[ghostRow][ghostCell].classList.add('ghost')
+      console.log('ghost Up - reverse!')
     } else {
       console.log('fail')
     }
+
+
     ele[0] = ghostRow
     ele[1] = ghostCell
     ele[2] = ghostHistory
@@ -275,6 +311,27 @@ function game() {
       ghostHistory.push(ghostRow, ghostCell)
       ghostRow = ghostRow - 1
       board[ghostRow][ghostCell].classList.add('ghost')
+    } else if ((board[ghostRow][ghostCell - 1].classList.value === 'pacman')) {
+      board[ghostRow][ghostCell].classList.remove('ghost')
+      ghostHistory = []
+      ghostHistory.push(ghostRow, ghostCell)
+      ghostCell = ghostCell - 1
+      board[ghostRow][ghostCell].classList.remove('pacman')
+      board[ghostRow][ghostCell].classList.add('ghost')
+      pacmanCell = 9
+      pacmanRow = 12
+      board[pacmanRow][pacmanCell].classList.add('pacman')
+      life = life - 1
+      clearInterval(pacIntervalID)
+      // endGame()
+      console.log('pacman to left')
+    } else if ((board[ghostRow][ghostCell - 1].classList.value === 'empty ghost' || board[ghostRow][ghostCell - 1].classList.value === 'fruit ghost' || board[ghostRow][ghostCell - 1].classList.value === 'pill ghost')) {
+      board[ghostRow][ghostCell].classList.remove('ghost')
+      ghostHistory = []
+      ghostHistory.push(ghostRow, ghostCell)
+      ghostCell = ghostCell + 1
+      board[ghostRow][ghostCell].classList.add('ghost')
+      console.log('ghost left - reverse!')
     } else {
       console.log('fail')
     }
@@ -321,6 +378,27 @@ function game() {
       ghostHistory.push(ghostRow, ghostCell)
       ghostCell = ghostCell - 1
       board[ghostRow][ghostCell].classList.add('ghost')
+    } else if ((board[ghostRow + 1][ghostCell].classList.value === 'pacman')) {
+      board[ghostRow][ghostCell].classList.remove('ghost')
+      ghostHistory = []
+      ghostHistory.push(ghostRow, ghostCell)
+      ghostRow = ghostRow + 1
+      board[ghostRow][ghostCell].classList.remove('pacman')
+      board[ghostRow][ghostCell].classList.add('ghost')
+      pacmanCell = 9
+      pacmanRow = 12
+      board[pacmanRow][pacmanCell].classList.add('pacman')
+      life = life - 1
+      clearInterval(pacIntervalID)
+      // endGame()
+      console.log('pacman down')
+    } else if ((board[ghostRow + 1][ghostCell].classList.value === 'empty ghost' || board[ghostRow + 1][ghostCell].classList.value === 'fruit ghost' || board[ghostRow + 1][ghostCell].classList.value === 'pill ghost')) {
+      board[ghostRow][ghostCell].classList.remove('ghost')
+      ghostHistory = []
+      ghostHistory.push(ghostRow, ghostCell)
+      ghostRow = ghostRow - 1
+      board[ghostRow][ghostCell].classList.add('ghost')
+      console.log('ghost down - reverse!')
     } else {
       console.log('fail')
     }
@@ -367,6 +445,27 @@ function game() {
       ghostHistory.push(ghostRow, ghostCell)
       ghostRow = ghostRow + 1
       board[ghostRow][ghostCell].classList.add('ghost')
+    } else if ((board[ghostRow][ghostCell + 1].classList.value === 'pacman')) {
+      board[ghostRow][ghostCell].classList.remove('ghost')
+      ghostHistory = []
+      ghostHistory.push(ghostRow, ghostCell)
+      ghostCell = ghostCell + 1
+      board[ghostRow][ghostCell].classList.remove('pacman')
+      board[ghostRow][ghostCell].classList.add('ghost')
+      pacmanCell = 9
+      pacmanRow = 12
+      board[pacmanRow][pacmanCell].classList.add('pacman')
+      life = life - 1
+      clearInterval(pacIntervalID)
+      // endGame()
+      console.log('pacman to right')
+    } else if ((board[ghostRow][ghostCell + 1].classList.value === 'empty ghost' || board[ghostRow][ghostCell + 1].classList.value === 'fruit ghost' || board[ghostRow][ghostCell + 1].classList.value === 'pill ghost')) {
+      board[ghostRow][ghostCell].classList.remove('ghost')
+      ghostHistory = []
+      ghostHistory.push(ghostRow, ghostCell)
+      ghostCell = ghostCell - 1
+      board[ghostRow][ghostCell].classList.add('ghost')
+      console.log('ghost right - reverse!')
     } else {
       console.log('fail')
     }
@@ -375,6 +474,7 @@ function game() {
     ele[2] = ghostHistory
   }
 
+  // Old logic - GhostChase2 is improved and uses the loop for all of the ghosts!!!
   function ghostChase1() {
     ghostAray.forEach((ele) => {
       setInterval(() => {
@@ -422,48 +522,52 @@ function game() {
   // imrpoved chasing logic.  Need to improve it incase them come into contact with one another
   function ghostChase2() {
     ghostAray.forEach((ele) => {
-      setInterval(() => {
+      ele[3] = setInterval(() => {
         let ghostRow = ele[0]
         let ghostCell = ele[1]
         let ghostHistory = ele[2]
         let counter = 0
-        if (ghostRow === pacmanRow) {
-          if (ghostCell < pacmanCell) {
-            ghostMoveRUDL(ghostRow, ghostCell, ghostHistory, ele)
-            counter ++
-          } else {
-            ghostMoveLDRU(ghostRow, ghostCell, ghostHistory, ele)
-            counter ++
+        if (life > 0) {
+          if (ghostRow === pacmanRow) {
+            if (ghostCell < pacmanCell) {
+              ghostMoveRUDL(ghostRow, ghostCell, ghostHistory, ele)
+              counter++
+            } else {
+              ghostMoveLDRU(ghostRow, ghostCell, ghostHistory, ele)
+              counter++
+            }
+          } else if (counter % 2 === 1) {
+            if (ghostCell < pacmanCell) {
+              ghostMoveRUDL(ghostRow, ghostCell, ghostHistory, ele)
+              counter++
+            } else if (ghostCell > pacmanCell) {
+              ghostMoveLDRU(ghostRow, ghostCell, ghostHistory, ele)
+              counter++
+            }
           }
-        } else if (counter % 2 === 1) {
-          if (ghostCell < pacmanCell) {
-            ghostMoveRUDL(ghostRow, ghostCell, ghostHistory, ele)
-            counter++
-          } else if (ghostCell > pacmanCell) {
-            ghostMoveLDRU(ghostRow, ghostCell, ghostHistory, ele)
-            counter++
-          } 
-        }
-        if (ghostCell === pacmanCell) {
-          if (ghostRow > pacmanRow) {
-            ghostMoveULDR(ghostRow, ghostCell, ghostHistory, ele)
-            counter ++
-          } else {
-            ghostMoveDRUL(ghostRow, ghostCell, ghostHistory, ele)
-            counter ++
+          if (ghostCell === pacmanCell) {
+            if (ghostRow > pacmanRow) {
+              ghostMoveULDR(ghostRow, ghostCell, ghostHistory, ele)
+              counter++
+            } else {
+              ghostMoveDRUL(ghostRow, ghostCell, ghostHistory, ele)
+              counter++
+            }
+          } else if (counter % 2 === 0) {
+            if (ghostRow > pacmanRow) {
+              ghostMoveULDR(ghostRow, ghostCell, ghostHistory, ele)
+              counter++
+            } else {
+              ghostMoveDRUL(ghostRow, ghostCell, ghostHistory, ele)
+              counter++
+            }
           }
-        } else if (counter % 2 === 0) {
-          if (ghostRow > pacmanRow) {
-            ghostMoveULDR(ghostRow, ghostCell, ghostHistory, ele)
-            counter++
-          } else {
-            ghostMoveDRUL(ghostRow, ghostCell, ghostHistory, ele)
-            counter++
-          } 
-       
-          
+        } else {
+          clearInterval(ele[3])
         }
-      }, 300)
+
+      }, ele[4])
+
     })
   }
 
@@ -473,18 +577,20 @@ function game() {
   //this logic is pretty good.
 
   //  need to reverse when pacman has a new class
-  // need to do the interaction when hits pacman - Pacman loose life
+
   // maybe place the ghosts at different locations
   // if ghost hits ghost - goes backwards (need to look at how this works?  Maybe change reverse array?)
+  // Also need to do something for the run off for the ghosts, I recon we do not allow ghosts to run off
   // maybe try the logic of u LR d.  Might work better but this is quite randomised which is nice.  Hard but not too hard
-  
+
 
   //NEED TO DO
   // start function
   // end function
   // new level ??
 
-  
+
+
 
 
 

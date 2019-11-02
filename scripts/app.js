@@ -11,7 +11,7 @@ function game() {
     [0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0],
     [2, 2, 2, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 2, 2, 2],
     [0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0],
-    [2, 2, 2, 2, 1, 1, 1, 1, 3, 3, 3, 1, 1, 1, 1, 2, 2, 2, 2],
+    [2, 2, 2, 2, 1, 1, 1, 0, 3, 3, 3, 0, 1, 1, 1, 2, 2, 2, 2],
     [0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0],
     [2, 2, 2, 0, 1, 0, 1, 1, 1, 5, 1, 1, 1, 0, 1, 0, 2, 2, 2],
     [0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0],
@@ -204,7 +204,6 @@ function game() {
 
   // These are 4 functions, with the first move L, R, D, U - then function if it comes across Pacman or comes accross another Ghost
   function ghostMoveULDR(ghostRow, ghostCell, ghostHistory, ele) {
- 
 
     if (((board[ghostRow - 1][ghostCell].classList.value === 'empty') || (board[ghostRow - 1][ghostCell].classList.value === 'fruit') || (board[ghostRow - 1][ghostCell].classList.value === 'pill')) && ((ghostRow - 1 !== ghostHistory[0]))) {
       board[ghostRow][ghostCell].classList.remove('ghost')
@@ -263,6 +262,13 @@ function game() {
       ghostRow = ghostRow + 1
       board[ghostRow][ghostCell].classList.add('ghost')
       console.log('ghost Up - reverse!')
+    } else if ((board[ghostRow][ghostCell - 1].classList.value === 'empty ghost' || board[ghostRow][ghostCell - 1].classList.value === 'fruit ghost' || board[ghostRow][ghostCell - 1].classList.value === 'pill ghost')) {
+      board[ghostRow][ghostCell].classList.remove('ghost')
+      ghostHistory = []
+      ghostHistory.push(ghostRow, ghostCell)
+      ghostCell = ghostCell + 1
+      board[ghostRow][ghostCell].classList.add('ghost')
+      console.log('ghost left - reverse!')
     } else {
       console.log('fail')
     }
@@ -332,6 +338,13 @@ function game() {
       ghostCell = ghostCell + 1
       board[ghostRow][ghostCell].classList.add('ghost')
       console.log('ghost left - reverse!')
+    } else if ((board[ghostRow + 1][ghostCell].classList.value === 'empty ghost' || board[ghostRow + 1][ghostCell].classList.value === 'fruit ghost' || board[ghostRow + 1][ghostCell].classList.value === 'pill ghost')) {
+      board[ghostRow][ghostCell].classList.remove('ghost')
+      ghostHistory = []
+      ghostHistory.push(ghostRow, ghostCell)
+      ghostRow = ghostRow - 1
+      board[ghostRow][ghostCell].classList.add('ghost')
+      console.log('ghost down - reverse!')
     } else {
       console.log('fail')
     }
@@ -399,6 +412,13 @@ function game() {
       ghostRow = ghostRow - 1
       board[ghostRow][ghostCell].classList.add('ghost')
       console.log('ghost down - reverse!')
+    } else if ((board[ghostRow][ghostCell + 1].classList.value === 'empty ghost' || board[ghostRow][ghostCell + 1].classList.value === 'fruit ghost' || board[ghostRow][ghostCell + 1].classList.value === 'pill ghost')) {
+      board[ghostRow][ghostCell].classList.remove('ghost')
+      ghostHistory = []
+      ghostHistory.push(ghostRow, ghostCell)
+      ghostCell = ghostCell - 1
+      board[ghostRow][ghostCell].classList.add('ghost')
+      console.log('ghost right - reverse!')
     } else {
       console.log('fail')
     }
@@ -466,6 +486,13 @@ function game() {
       ghostCell = ghostCell - 1
       board[ghostRow][ghostCell].classList.add('ghost')
       console.log('ghost right - reverse!')
+    } else if ((board[ghostRow - 1][ghostCell].classList.value === 'empty ghost' || board[ghostRow - 1][ghostCell].classList.value === 'fruit ghost' || board[ghostRow - 1][ghostCell].classList.value === 'pill ghost')) {
+      board[ghostRow][ghostCell].classList.remove('ghost')
+      ghostHistory = []
+      ghostHistory.push(ghostRow, ghostCell)
+      ghostRow = ghostRow + 1
+      board[ghostRow][ghostCell].classList.add('ghost')
+      console.log('ghost Up - reverse!')
     } else {
       console.log('fail')
     }
@@ -579,10 +606,8 @@ function game() {
   //  need to reverse when pacman has a new class
 
   // maybe place the ghosts at different locations
-  // if ghost hits ghost - goes backwards (need to look at how this works?  Maybe change reverse array?)
   // Also need to do something for the run off for the ghosts, I recon we do not allow ghosts to run off
-  // maybe try the logic of u LR d.  Might work better but this is quite randomised which is nice.  Hard but not too hard
-
+  // maybe something to do with starting Logic? 
 
   //NEED TO DO
   // start function

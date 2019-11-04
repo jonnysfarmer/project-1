@@ -88,7 +88,8 @@ function game() {
   let ghostSpeed = 300
   let startButton = document.querySelector('.start')
 
-
+  // my sendgame function.  If life ==0 then it sends the game.  Clears the board,  Creates a new info screen.  Then recalls the 
+  // go function
   function endGame() {
     if (life === 0) {
       console.log('endgame')
@@ -101,7 +102,7 @@ function game() {
       button.classList.add('start')
       div.appendChild(button)
       startButton = document.querySelector('.start')
-      startButton.innerHTML = 'start a new game'
+      startButton.innerHTML = `Your score was ${score} <br> click to start <br>a new game`
       GO()
     }
 
@@ -998,6 +999,7 @@ function game() {
       board = []
       createBoard()
       life = 3
+      score = 0
       ghostAray = [
         [10, 9, [10, 9], NaN, ghostSpeed, 0, [10, 9]],
         [10, 8, [10, 8], NaN, (ghostSpeed + 50), 0, [10, 8]],

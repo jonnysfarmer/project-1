@@ -70,7 +70,7 @@ div .fruit {
   display: flex;
   height: 15.78px;
   width: 15.78px;
-  background-color: white;
+  background-color: rgb(232, 239, 233);
   font-size: 100%;
   /* text-align: center;
   align-content: center; */
@@ -81,25 +81,25 @@ div .empty {
   flex-grow: 1;
   height: 15.78px;
   width: 15.78px;
-  background-color: white;
+  background-color: rgb(232, 239, 233);
 }
 div div .ghost {
   flex-grow: 1;
   height: 15.78px;
   width: 15.78px;
-  background-color: red;
+  background-color: rgb(249, 0, 0)
 }
 div .pill {
   flex-grow: 1;
   height: 15.78px;
   width: 15.78px;
-  background-color: pink;
+  background-color: rgb(29, 0, 94);
 }
 div .pacman {
   flex-grow: 1;
   height: 15.78px;
   width: 15.78px;
-  background-color: yellow
+  background-color: rgb(252, 210, 0)
 }
 div .ghostBase {
   flex-grow: 1;
@@ -110,18 +110,18 @@ div div .activate {
   flex-grow: 1;
   height: 15.78px;
   width: 15.78px;
-  background-color: yellow;
+  background-color: rgb(252, 210, 0);
   animation: Flash 0.25s infinite;
 }
 
 @keyframes Flash {
-  0%, 50% {
-    background-color: pink;
+  50% {
+    background-color:rgb(29, 0, 94);
   }
 }
 .intro {
   align-items: center;
-
+  background-image: url('/Images/rsz_composition-c.jpg');
   display: flex;
   flex-grow: 1;
   flex-wrap: wrap;
@@ -130,18 +130,29 @@ div div .activate {
   height: 350px;
   width: 300px;
   position:relative;
-  text-align:center; 
+  text-align:center;
 
 }
 .score, .life {
   text-align: center;
   color: black;
   font-family: 'Cinzel', serif;
-  font-weight: 600;
+  /* font-weight: bold; */
 }
 .score {
   margin: 10px 10px 5px 10px
 }
 .life {
   margin: 5px 10px 10px 10px
+}
+button {
+  background: transparent;
+  border: none;
+  height: 350px;
+  width: 300px;
+  padding: 0;
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  text-align: right;
+  padding: 10px;
 }

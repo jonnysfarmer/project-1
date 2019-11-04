@@ -11,7 +11,7 @@ function game() {
     [0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0],
     [2, 2, 2, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 2, 2, 2],
     [0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0],
-    [2, 2, 2, 6, 1, 1, 1, 0, 3, 3, 3, 0, 1, 1, 1, 6, 2, 2, 2],
+    [2, 2, 2, 0, 1, 1, 1, 0, 3, 3, 3, 0, 1, 1, 1, 0, 2, 2, 2],
     [0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0],
     [2, 2, 2, 0, 1, 0, 1, 1, 1, 5, 1, 1, 1, 0, 1, 0, 2, 2, 2],
     [0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0],
@@ -83,8 +83,9 @@ function game() {
   let score = 0
   let life = 3
   let pacIntervalID = NaN
-  const speed = 250
+  const speed = 200
   let ghostIntervalID = NaN
+  let ghostSpeed = 300
 
   function endGame() {
     if (life <= 0) {
@@ -151,14 +152,9 @@ function game() {
 
   //New move function that adds the active function for 5000 ms if it goes over a pill!
   function pacmanMoveActivate(cellMove, rowMove, key) {
-    if (board[pacmanRow][pacmanCell].classList.value === 'pacman') {
-      if (pacmanCell === 0 && key === 'a') {
-        cellMove = 18
-      }
-      if (pacmanCell === 18 && key === 'd') {
-        cellMove = 0
-      }
-      //The above 2 basically does the issue with the run around
+    console.log(board[pacmanRow][pacmanCell].classList.value)
+    if (board[pacmanRow][pacmanCell].classList.value === 'pacman' || board[pacmanRow][pacmanCell].classList.value === 'empty pacman') {
+
       if (board[rowMove][cellMove].classList.value === 'wall') {
         return
       } else if (board[rowMove][cellMove].classList.value === 'fruit') {
@@ -187,7 +183,7 @@ function game() {
         board[pacmanRow][pacmanCell].classList.add('activate')
         setTimeout(() => {
           board[pacmanRow][pacmanCell].classList.remove('activate')
-        }, 5000)
+        }, 10000)
         console.log('active')
         score = score + 10
         // Add a new class that makes it FLASH
@@ -196,13 +192,14 @@ function game() {
         board[pacmanRow][pacmanCell].classList.add('empty')
         pacmanCell = 9
         pacmanRow = 12
+        board[pacmanRow][pacmanCell].classList.remove('empty')
         board[pacmanRow][pacmanCell].classList.add('pacman')
         life = life - 1
         clearInterval(pacIntervalID)
         // endGame()
         // Add something that ends the game
       }
-    } else if (board[pacmanRow][pacmanCell].classList.value === 'pacman activate'){
+    } else if (board[pacmanRow][pacmanCell].classList.value === 'pacman activate') {
       if (pacmanCell === 0 && key === 'a') {
         cellMove = 18
       }
@@ -246,19 +243,8 @@ function game() {
         // }, 500)
         score = score + 10
         // Add a new class that makes it FLASH
-      } else if (board[rowMove][cellMove].classList.value === 'empty ghost' || board[rowMove][cellMove].classList.value === 'fruit ghost' || board[rowMove][cellMove].classList.value === 'pill ghost') {
-        board[pacmanRow][pacmanCell].classList.remove('pacman')
-        board[pacmanRow][pacmanCell].classList.remove('activate')
-        board[pacmanRow][pacmanCell].classList.add('empty')
-        pacmanCell = 9
-        pacmanRow = 12
-        board[pacmanRow][pacmanCell].classList.add('pacman')
-        life = life - 1
-        clearInterval(pacIntervalID)
-        // endGame()
-        // Add something that ends the game
-
-    }}
+      }
+    }
     scoreDisplay.innerHTML = `Your Score is : ${score}`
     lifeDisplay.innerHTML = `Number of lives : ${life}`
   }
@@ -269,6 +255,7 @@ function game() {
       clearInterval(pacIntervalID)
       pacIntervalID = setInterval(() => {
         const key = 'a'
+        // console.log('test')
         const cellMove = pacmanCell - 1
         const rowMove = pacmanRow
         pacmanMoveActivate(cellMove, rowMove, key)
@@ -312,22 +299,25 @@ function game() {
   // function, if pacmanRow > Ghost row.  Then move down.  If you cant, move left, then right, then up.
   // then it checks for pacmancell > Ghost cell.  Then more right.  If not, down, up, left and so on...
 
-  let ghost1Row = 9
-  let ghost1Cell = 9
-  let ghost1History = []
   //ghost array for ghost 1, 2 and 3!  They go Ghost Cell, Ghost Row, Ghost History, Nan is to clear the timers, Speed, counter, orginal location
+
   let ghostAray = [
-    [10, 9, [10, 9], NaN, 325, 0, [10.9]],
-    [10, 8, [10, 8], NaN, 350, 0, [10, 8]],
-    [10, 10, [10, 10], NaN, 400, 0, [10,10]]
+    [10, 9, [10, 9], NaN, ghostSpeed, 0, [10, 9]],
+    [10, 8, [10, 8], NaN, (ghostSpeed + 50), 0, [10, 8]],
+    [10, 10, [10, 10], NaN, (ghostSpeed + 75), 0, [10, 10]]
   ]
 
   // Ghost history is an array which means it can not go back on itself
 
   // These are 4 functions, with the first move L, R, D, U - then function if it comes across Pacman or comes accross another Ghost
-  function ghostMoveULDR(ghostRow, ghostCell, ghostHistory, ele) {
+  function ghostMoveULDR(ghostRow, ghostCell, ghostHistory, ele, orginalPos) {
 
-    if (((board[ghostRow - 1][ghostCell].classList.value === 'empty') || (board[ghostRow - 1][ghostCell].classList.value === 'fruit') || (board[ghostRow - 1][ghostCell].classList.value === 'pill')) && ((ghostRow - 1 !== ghostHistory[0]))) {
+    if ((board[ghostRow - 1][ghostCell].classList.value === 'pacman activate') || (board[ghostRow + 1][ghostCell].classList.value === 'pacman activate') || (board[ghostRow][ghostCell + 1].classList.value === 'pacman activate') || (board[ghostRow][ghostCell - 1].classList.value === 'pacman activate')) {
+      board[ghostRow][ghostCell].classList.remove('ghost')
+      ghostRow = orginalPos[0]
+      ghostCell = orginalPos[1]
+      board[ghostRow][ghostCell].classList.add('ghost')
+    } else if (((board[ghostRow - 1][ghostCell].classList.value === 'empty') || (board[ghostRow - 1][ghostCell].classList.value === 'fruit') || (board[ghostRow - 1][ghostCell].classList.value === 'pill')) && ((ghostRow - 1 !== ghostHistory[0]))) {
       board[ghostRow][ghostCell].classList.remove('ghost')
       if (board[ghostRow][ghostCell].classList.value === '') {
         board[ghostRow][ghostCell].classList.add('empty')
@@ -377,6 +367,7 @@ function game() {
       clearInterval(pacIntervalID)
       // endGame()
       console.log('pacman Up')
+      // endGame()
     } else if ((board[ghostRow - 1][ghostCell].classList.value === 'empty ghost' || board[ghostRow - 1][ghostCell].classList.value === 'fruit ghost' || board[ghostRow - 1][ghostCell].classList.value === 'pill ghost')) {
       board[ghostRow][ghostCell].classList.remove('ghost')
       ghostHistory = []
@@ -416,8 +407,13 @@ function game() {
 
     // console.log([[ghostRow + 1],[ghostCell]])
   }
-  function ghostMoveLDRU(ghostRow, ghostCell, ghostHistory, ele) {
-    if (((board[ghostRow][ghostCell - 1].classList.value === 'empty') || (board[ghostRow][ghostCell - 1].classList.value === 'fruit') || (board[ghostRow][ghostCell - 1].classList.value === 'pill')) && (ghostCell - 1 !== ghostHistory[1])) {
+  function ghostMoveLDRU(ghostRow, ghostCell, ghostHistory, ele, orginalPos) {
+    if ((board[ghostRow - 1][ghostCell].classList.value === 'pacman activate') || (board[ghostRow + 1][ghostCell].classList.value === 'pacman activate') || (board[ghostRow][ghostCell + 1].classList.value === 'pacman activate') || (board[ghostRow][ghostCell - 1].classList.value === 'pacman activate')) {
+      board[ghostRow][ghostCell].classList.remove('ghost')
+      ghostRow = orginalPos[0]
+      ghostCell = orginalPos[1]
+      board[ghostRow][ghostCell].classList.add('ghost')
+    } else if (((board[ghostRow][ghostCell - 1].classList.value === 'empty') || (board[ghostRow][ghostCell - 1].classList.value === 'fruit') || (board[ghostRow][ghostCell - 1].classList.value === 'pill')) && (ghostCell - 1 !== ghostHistory[1])) {
       board[ghostRow][ghostCell].classList.remove('ghost')
       if (board[ghostRow][ghostCell].classList.value === '') {
         board[ghostRow][ghostCell].classList.add('empty')
@@ -467,6 +463,12 @@ function game() {
       clearInterval(pacIntervalID)
       // endGame()
       console.log('pacman to left')
+    } else if ((board[ghostRow - 1][ghostCell].classList.value === 'pacman activate') || (board[ghostRow + 1][ghostCell].classList.value === 'pacman activate') || (board[ghostRow][ghostCell + 1].classList.value === 'pacman activate') || (board[ghostRow][ghostCell - 1].classList.value === 'pacman activate')) {
+      board[ghostRow][ghostCell].classList.remove('ghost')
+      ghostRow = orginalPos[0]
+      ghostCell = orginalPos[1]
+      board[ghostRow][ghostCell].classList.add('ghost')
+      // endGame()
     } else if ((board[ghostRow][ghostCell - 1].classList.value === 'empty ghost' || board[ghostRow][ghostCell - 1].classList.value === 'fruit ghost' || board[ghostRow][ghostCell - 1].classList.value === 'pill ghost')) {
       board[ghostRow][ghostCell].classList.remove('ghost')
       ghostHistory = []
@@ -490,8 +492,13 @@ function game() {
 
     // console.log([[ghostRow + 1],[ghostCell]])
   }
-  function ghostMoveDRUL(ghostRow, ghostCell, ghostHistory, ele) {
-    if (((board[ghostRow + 1][ghostCell].classList.value === 'empty') || (board[ghostRow + 1][ghostCell].classList.value === 'fruit') || (board[ghostRow + 1][ghostCell].classList.value === 'pill')) && (ghostRow + 1 !== ghostHistory[0])) {
+  function ghostMoveDRUL(ghostRow, ghostCell, ghostHistory, ele, orginalPos) {
+    if ((board[ghostRow - 1][ghostCell].classList.value === 'pacman activate') || (board[ghostRow + 1][ghostCell].classList.value === 'pacman activate') || (board[ghostRow][ghostCell + 1].classList.value === 'pacman activate') || (board[ghostRow][ghostCell - 1].classList.value === 'pacman activate')) {
+      board[ghostRow][ghostCell].classList.remove('ghost')
+      ghostRow = orginalPos[0]
+      ghostCell = orginalPos[1]
+      board[ghostRow][ghostCell].classList.add('ghost')
+    } else if (((board[ghostRow + 1][ghostCell].classList.value === 'empty') || (board[ghostRow + 1][ghostCell].classList.value === 'fruit') || (board[ghostRow + 1][ghostCell].classList.value === 'pill')) && (ghostRow + 1 !== ghostHistory[0])) {
       board[ghostRow][ghostCell].classList.remove('ghost')
       if (board[ghostRow][ghostCell].classList.value === '') {
         board[ghostRow][ghostCell].classList.add('empty')
@@ -541,6 +548,12 @@ function game() {
       clearInterval(pacIntervalID)
       // endGame()
       console.log('pacman down')
+    } else if ((board[ghostRow - 1][ghostCell].classList.value === 'pacman activate') || (board[ghostRow + 1][ghostCell].classList.value === 'pacman activate') || (board[ghostRow][ghostCell + 1].classList.value === 'pacman activate') || (board[ghostRow][ghostCell - 1].classList.value === 'pacman activate')) {
+      board[ghostRow][ghostCell].classList.remove('ghost')
+      ghostRow = orginalPos[0]
+      ghostCell = orginalPos[1]
+      board[ghostRow][ghostCell].classList.add('ghost')
+      // endGame()
     } else if ((board[ghostRow + 1][ghostCell].classList.value === 'empty ghost' || board[ghostRow + 1][ghostCell].classList.value === 'fruit ghost' || board[ghostRow + 1][ghostCell].classList.value === 'pill ghost')) {
       board[ghostRow][ghostCell].classList.remove('ghost')
       ghostHistory = []
@@ -564,8 +577,13 @@ function game() {
 
     // console.log([[ghostRow + 1],[ghostCell]])
   }
-  function ghostMoveRUDL(ghostRow, ghostCell, ghostHistory, ele) {
-    if (((board[ghostRow][ghostCell + 1].classList.value === 'empty') || (board[ghostRow][ghostCell + 1].classList.value === 'fruit') || (board[ghostRow][ghostCell + 1].classList.value === 'pill')) && (ghostCell + 1 !== ghostHistory[1])) {
+  function ghostMoveRUDL(ghostRow, ghostCell, ghostHistory, ele, orginalPos) {
+    if ((board[ghostRow - 1][ghostCell].classList.value === 'pacman activate') || (board[ghostRow + 1][ghostCell].classList.value === 'pacman activate') || (board[ghostRow][ghostCell + 1].classList.value === 'pacman activate') || (board[ghostRow][ghostCell - 1].classList.value === 'pacman activate')) {
+      board[ghostRow][ghostCell].classList.remove('ghost')
+      ghostRow = orginalPos[0]
+      ghostCell = orginalPos[1]
+      board[ghostRow][ghostCell].classList.add('ghost')
+    } else if (((board[ghostRow][ghostCell + 1].classList.value === 'empty') || (board[ghostRow][ghostCell + 1].classList.value === 'fruit') || (board[ghostRow][ghostCell + 1].classList.value === 'pill')) && (ghostCell + 1 !== ghostHistory[1])) {
       board[ghostRow][ghostCell].classList.remove('ghost')
       if (board[ghostRow][ghostCell].classList.value === '') {
         board[ghostRow][ghostCell].classList.add('empty')
@@ -615,6 +633,12 @@ function game() {
       clearInterval(pacIntervalID)
       // endGame()
       console.log('pacman to right')
+    } else if ((board[ghostRow - 1][ghostCell].classList.value === 'pacman activate') || (board[ghostRow + 1][ghostCell].classList.value === 'pacman activate') || (board[ghostRow][ghostCell + 1].classList.value === 'pacman activate') || (board[ghostRow][ghostCell - 1].classList.value === 'pacman activate')) {
+      board[ghostRow][ghostCell].classList.remove('ghost')
+      ghostRow = orginalPos[0]
+      ghostCell = orginalPos[1]
+      board[ghostRow][ghostCell].classList.add('ghost')
+      // endGame()
     } else if ((board[ghostRow][ghostCell + 1].classList.value === 'empty ghost' || board[ghostRow][ghostCell + 1].classList.value === 'fruit ghost' || board[ghostRow][ghostCell + 1].classList.value === 'pill ghost')) {
       board[ghostRow][ghostCell].classList.remove('ghost')
       ghostHistory = []
@@ -785,13 +809,101 @@ function game() {
 
     })
   }
+  // Ghost Chase 3 logic, but with running away function
+  function ghostChase4() {
+    ghostAray.forEach((ele) => {
+      ele[3] = setInterval(() => {
+        let ghostRow = ele[0]
+        let ghostCell = ele[1]
+        let ghostHistory = ele[2]
+        let counter = ele[5]
+        let orginalPos = ele[6]
+        console.log(counter)
+        if (life > 0) {
+          if (board[pacmanRow][pacmanCell].classList.value === 'pacman' || board[pacmanRow][pacmanCell].classList.value === 'empty pacman') {
+            if (ghostRow === pacmanRow || ghostCell === pacmanCell) {
+              if (ghostRow === pacmanRow && ghostCell < pacmanCell) {
+                ghostMoveRUDL(ghostRow, ghostCell, ghostHistory, ele, orginalPos)
+                ele[5]++
+              }
+              if (ghostRow === pacmanRow && ghostCell > pacmanCell) {
+                ghostMoveLDRU(ghostRow, ghostCell, ghostHistory, ele, orginalPos)
+                ele[5]++
+              }
+              if (ghostCell === pacmanCell && ghostRow > pacmanRow) {
+                ghostMoveULDR(ghostRow, ghostCell, ghostHistory, ele, orginalPos)
+                ele[5]++
+              }
+              if (ghostCell === pacmanCell && ghostRow < pacmanRow) {
+                ghostMoveDRUL(ghostRow, ghostCell, ghostHistory, ele, orginalPos)
+                ele[5]++
+              }
+            } else if (counter % 2 === 1) {
+              if (ghostCell < pacmanCell) {
+                ghostMoveRUDL(ghostRow, ghostCell, ghostHistory, ele, orginalPos)
+                ele[5]++
+              } else if (ghostCell > pacmanCell) {
+                ghostMoveLDRU(ghostRow, ghostCell, ghostHistory, ele, orginalPos)
+                ele[5]++
+              }
+            } else if (counter % 2 === 0) {
+              if (ghostRow > pacmanRow) {
+                ghostMoveULDR(ghostRow, ghostCell, ghostHistory, ele, orginalPos)
+                ele[5]++
+              } else {
+                ghostMoveDRUL(ghostRow, ghostCell, ghostHistory, ele, orginalPos)
+                ele[5]++
+              }
+            }
+          } else {
+            if (ghostRow === pacmanRow || ghostCell === pacmanCell) {
+              if (ghostRow === pacmanRow && ghostCell > pacmanCell) {
+                ghostMoveRUDL(ghostRow, ghostCell, ghostHistory, ele, orginalPos)
+                ele[5]++
+              }
+              if (ghostRow === pacmanRow && ghostCell < pacmanCell) {
+                ghostMoveLDRU(ghostRow, ghostCell, ghostHistory, ele, orginalPos)
+                ele[5]++
+              }
+              if (ghostCell === pacmanCell && ghostRow < pacmanRow) {
+                ghostMoveULDR(ghostRow, ghostCell, ghostHistory, ele, orginalPos)
+                ele[5]++
+              }
+              if (ghostCell === pacmanCell && ghostRow > pacmanRow) {
+                ghostMoveDRUL(ghostRow, ghostCell, ghostHistory, ele, orginalPos)
+                ele[5]++
+              }
+            } else if (counter % 2 === 1) {
+              if (ghostCell > pacmanCell) {
+                ghostMoveRUDL(ghostRow, ghostCell, ghostHistory, ele, orginalPos)
+                ele[5]++
+              } else if (ghostCell < pacmanCell) {
+                ghostMoveLDRU(ghostRow, ghostCell, ghostHistory, ele, orginalPos)
+                ele[5]++
+              }
+            } else if (counter % 2 === 0) {
+              if (ghostRow < pacmanRow) {
+                ghostMoveULDR(ghostRow, ghostCell, ghostHistory, ele, orginalPos)
+                ele[5]++
+              } else {
+                ghostMoveDRUL(ghostRow, ghostCell, ghostHistory, ele, orginalPos)
+                ele[5]++
+              }
+            }
+          }
+        } else {
+          clearInterval(ele[3])
+        }
+        lifeDisplay.innerHTML = `Number of lives : ${life}`
+      }, ele[4])
 
+      
+    })
+  }
 
-  ghostChase3()
+  ghostChase4()
   //this logic is pretty good.
 
-  //  need to reverse when pacman has a new class
-  //Update when the lives are viewed
 
 
   // Also need to do something for the run off for the ghosts, I recon we do not allow ghosts to run off . have changed class, just need to add it to pacmans movements

@@ -95,7 +95,7 @@ div div .activate {
   height: 15.78px;
   width: 15.78px;
   background-color: yellow;
-  animation: Flash 0.5s infinite;
+  animation: Flash 0.25s infinite;
 }
 
 @keyframes Flash {

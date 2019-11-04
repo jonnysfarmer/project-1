@@ -45,7 +45,7 @@ function game() {
       } break
       case 4: cell.classList.add('pill'); break
       case 5: {
-        cell.classList.add('pacman') 
+        cell.classList.add('pacman')
         // cell.classList.add('activate')  TESTING TO SEE IF ACTIVATE WORKS
       } break
       case 6: cell.classList.add('ghostBase'); break
@@ -94,7 +94,7 @@ function game() {
     }
   }
 
-  // move function
+  // move function - OLD, NOT INCLUDING PILL
   function pacmanMove(cellMove, rowMove, key) {
     if (pacmanCell === 0 && key === 'a') {
       cellMove = 18
@@ -129,9 +129,9 @@ function game() {
       pacmanRow = rowMove
       board[rowMove][pacmanCell].classList.add('pacman')
       board[rowMove][pacmanCell].classList.add('activate')
-      setTimeout(()=> {
-        board[rowMove][pacmanCell].classList.remove('activate')
-      }, 500)
+      // setTimeout(() => {
+      //   board[rowMove][pacmanCell].classList.remove('activate')
+      // }, 5000)
       score = score + 10
       // Add a new class that makes it FLASH
     } else if (board[rowMove][cellMove].classList.value === 'empty ghost' || board[rowMove][cellMove].classList.value === 'fruit ghost' || board[rowMove][cellMove].classList.value === 'pill ghost') {
@@ -149,6 +149,120 @@ function game() {
     lifeDisplay.innerHTML = `Number of lives : ${life}`
   }
 
+  //New move function that adds the active function for 5000 ms if it goes over a pill!
+  function pacmanMoveActivate(cellMove, rowMove, key) {
+    if (board[pacmanRow][pacmanCell].classList.value === 'pacman') {
+      if (pacmanCell === 0 && key === 'a') {
+        cellMove = 18
+      }
+      if (pacmanCell === 18 && key === 'd') {
+        cellMove = 0
+      }
+      //The above 2 basically does the issue with the run around
+      if (board[rowMove][cellMove].classList.value === 'wall') {
+        return
+      } else if (board[rowMove][cellMove].classList.value === 'fruit') {
+        board[pacmanRow][pacmanCell].classList.remove('pacman')
+        board[pacmanRow][pacmanCell].classList.add('empty')
+        board[rowMove][cellMove].classList.remove('fruit')
+        board[rowMove][cellMove].innerHTML = ''
+        pacmanCell = cellMove
+        pacmanRow = rowMove
+        board[rowMove][pacmanCell].classList.add('pacman')
+        score++
+      } else if (board[rowMove][cellMove].classList.value === 'empty') {
+        board[pacmanRow][pacmanCell].classList.remove('pacman')
+        board[rowMove][cellMove].classList.remove('empty')
+        board[pacmanRow][pacmanCell].classList.add('empty')
+        pacmanCell = cellMove
+        pacmanRow = rowMove
+        board[rowMove][pacmanCell].classList.add('pacman')
+      } else if (board[rowMove][cellMove].classList.value === 'pill') {
+        board[pacmanRow][pacmanCell].classList.remove('pacman')
+        board[rowMove][cellMove].classList.remove('pill')
+        board[pacmanRow][pacmanCell].classList.add('empty')
+        pacmanCell = cellMove
+        pacmanRow = rowMove
+        board[pacmanRow][pacmanCell].classList.add('pacman')
+        board[pacmanRow][pacmanCell].classList.add('activate')
+        setTimeout(() => {
+          board[pacmanRow][pacmanCell].classList.remove('activate')
+        }, 5000)
+        console.log('active')
+        score = score + 10
+        // Add a new class that makes it FLASH
+      } else if (board[rowMove][cellMove].classList.value === 'empty ghost' || board[rowMove][cellMove].classList.value === 'fruit ghost' || board[rowMove][cellMove].classList.value === 'pill ghost') {
+        board[pacmanRow][pacmanCell].classList.remove('pacman')
+        board[pacmanRow][pacmanCell].classList.add('empty')
+        pacmanCell = 9
+        pacmanRow = 12
+        board[pacmanRow][pacmanCell].classList.add('pacman')
+        life = life - 1
+        clearInterval(pacIntervalID)
+        // endGame()
+        // Add something that ends the game
+      }
+    } else if (board[pacmanRow][pacmanCell].classList.value === 'pacman activate'){
+      if (pacmanCell === 0 && key === 'a') {
+        cellMove = 18
+      }
+      if (pacmanCell === 18 && key === 'd') {
+        cellMove = 0
+      }
+      //The above 2 basically does the issue with the run around
+      if (board[rowMove][cellMove].classList.value === 'wall') {
+        return
+      } else if (board[rowMove][cellMove].classList.value === 'fruit') {
+        board[pacmanRow][pacmanCell].classList.remove('pacman')
+        board[pacmanRow][pacmanCell].classList.remove('activate')
+        board[pacmanRow][pacmanCell].classList.add('empty')
+        board[rowMove][cellMove].classList.remove('fruit')
+        board[rowMove][cellMove].innerHTML = ''
+        pacmanCell = cellMove
+        pacmanRow = rowMove
+        board[rowMove][pacmanCell].classList.add('pacman')
+        board[rowMove][pacmanCell].classList.add('activate')
+        score++
+      } else if (board[rowMove][cellMove].classList.value === 'empty') {
+        board[pacmanRow][pacmanCell].classList.remove('pacman')
+        board[pacmanRow][pacmanCell].classList.remove('activate')
+        board[rowMove][cellMove].classList.remove('empty')
+        board[pacmanRow][pacmanCell].classList.add('empty')
+        pacmanCell = cellMove
+        pacmanRow = rowMove
+        board[rowMove][pacmanCell].classList.add('pacman')
+        board[rowMove][pacmanCell].classList.add('activate')
+      } else if (board[rowMove][cellMove].classList.value === 'pill') {
+        board[pacmanRow][pacmanCell].classList.remove('pacman')
+        board[pacmanRow][pacmanCell].classList.remove('activate')
+        board[rowMove][cellMove].classList.remove('pill')
+        board[pacmanRow][pacmanCell].classList.add('empty')
+        pacmanCell = cellMove
+        pacmanRow = rowMove
+        board[rowMove][pacmanCell].classList.add('pacman')
+        board[rowMove][pacmanCell].classList.add('activate')
+        // setTimeout(() => {
+        //   board[rowMove][pacmanCell].classList.remove('activate')
+        // }, 500)
+        score = score + 10
+        // Add a new class that makes it FLASH
+      } else if (board[rowMove][cellMove].classList.value === 'empty ghost' || board[rowMove][cellMove].classList.value === 'fruit ghost' || board[rowMove][cellMove].classList.value === 'pill ghost') {
+        board[pacmanRow][pacmanCell].classList.remove('pacman')
+        board[pacmanRow][pacmanCell].classList.remove('activate')
+        board[pacmanRow][pacmanCell].classList.add('empty')
+        pacmanCell = 9
+        pacmanRow = 12
+        board[pacmanRow][pacmanCell].classList.add('pacman')
+        life = life - 1
+        clearInterval(pacIntervalID)
+        // endGame()
+        // Add something that ends the game
+
+    }}
+    scoreDisplay.innerHTML = `Your Score is : ${score}`
+    lifeDisplay.innerHTML = `Number of lives : ${life}`
+  }
+
   // Actual movement event listenter (a,w,d,s) and referrs to function pacmanMove
   document.addEventListener('keyup', (e) => {
     if (e.key === 'a') {
@@ -157,7 +271,7 @@ function game() {
         const key = 'a'
         const cellMove = pacmanCell - 1
         const rowMove = pacmanRow
-        pacmanMove(cellMove, rowMove, key)
+        pacmanMoveActivate(cellMove, rowMove, key)
       }, speed)
     } else if (e.key === 'd') {
       clearInterval(pacIntervalID)
@@ -165,21 +279,21 @@ function game() {
         const key = 'd'
         const cellMove = pacmanCell + 1
         const rowMove = pacmanRow
-        pacmanMove(cellMove, rowMove, key)
+        pacmanMoveActivate(cellMove, rowMove, key)
       }, speed)
     } else if (e.key === 'w') {
       clearInterval(pacIntervalID)
       pacIntervalID = setInterval(() => {
         const cellMove = pacmanCell
         const rowMove = pacmanRow - 1
-        pacmanMove(cellMove, rowMove)
+        pacmanMoveActivate(cellMove, rowMove)
       }, speed)
     } else if (e.key === 's') {
       clearInterval(pacIntervalID)
       pacIntervalID = setInterval(() => {
         const cellMove = pacmanCell
         const rowMove = pacmanRow + 1
-        pacmanMove(cellMove, rowMove)
+        pacmanMoveActivate(cellMove, rowMove)
       }, speed)
     }
   })
@@ -201,11 +315,11 @@ function game() {
   let ghost1Row = 9
   let ghost1Cell = 9
   let ghost1History = []
-  //ghost array for ghost 1, 2 and 3!  They go Ghost Cell, Ghost Row, Ghost History, Nan is to clear the timers, Speed, counter
+  //ghost array for ghost 1, 2 and 3!  They go Ghost Cell, Ghost Row, Ghost History, Nan is to clear the timers, Speed, counter, orginal location
   let ghostAray = [
-    [10, 9, [10, 9], NaN, 325, 0],
-    [10, 8, [10, 8], NaN, 350, 0],
-    [10, 10, [10, 10], NaN, 400, 0]
+    [10, 9, [10, 9], NaN, 325, 0, [10.9]],
+    [10, 8, [10, 8], NaN, 350, 0, [10, 8]],
+    [10, 10, [10, 10], NaN, 400, 0, [10,10]]
   ]
 
   // Ghost history is an array which means it can not go back on itself

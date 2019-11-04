@@ -11,7 +11,7 @@ function game() {
     [0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0],
     [2, 2, 2, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 2, 2, 2],
     [0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0],
-    [2, 2, 2, 2, 1, 1, 1, 0, 3, 3, 3, 0, 1, 1, 1, 2, 2, 2, 2],
+    [2, 2, 2, 6, 1, 1, 1, 0, 3, 3, 3, 0, 1, 1, 1, 6, 2, 2, 2],
     [0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0],
     [2, 2, 2, 0, 1, 0, 1, 1, 1, 5, 1, 1, 1, 0, 1, 0, 2, 2, 2],
     [0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0],
@@ -44,7 +44,11 @@ function game() {
         cell.classList.add('ghostBase')
       } break
       case 4: cell.classList.add('pill'); break
-      case 5: cell.classList.add('pacman'); break
+      case 5: {
+        cell.classList.add('pacman') 
+        // cell.classList.add('activate')  TESTING TO SEE IF ACTIVATE WORKS
+      } break
+      case 6: cell.classList.add('ghostBase'); break
     }
   }
   // Creates the actualy board from array. Does each Row, then elements in each cell 
@@ -124,6 +128,10 @@ function game() {
       pacmanCell = cellMove
       pacmanRow = rowMove
       board[rowMove][pacmanCell].classList.add('pacman')
+      board[rowMove][pacmanCell].classList.add('activate')
+      setTimeout(()=> {
+        board[rowMove][pacmanCell].classList.remove('activate')
+      }, 500)
       score = score + 10
       // Add a new class that makes it FLASH
     } else if (board[rowMove][cellMove].classList.value === 'empty ghost' || board[rowMove][cellMove].classList.value === 'fruit ghost' || board[rowMove][cellMove].classList.value === 'pill ghost') {
@@ -193,11 +201,11 @@ function game() {
   let ghost1Row = 9
   let ghost1Cell = 9
   let ghost1History = []
-  //ghost array for ghost 1, 2 and 3!  They go Ghost Cell, Ghost Row, Ghost History, Nan is to clear the timers, Speec
+  //ghost array for ghost 1, 2 and 3!  They go Ghost Cell, Ghost Row, Ghost History, Nan is to clear the timers, Speed, counter
   let ghostAray = [
-    [10, 9, [10, 9], NaN, 325],
-    [10, 8, [10, 8], NaN, 350],
-    [10, 10, [10, 10], NaN, 400]
+    [10, 9, [10, 9], NaN, 325, 0],
+    [10, 8, [10, 8], NaN, 350, 0],
+    [10, 10, [10, 10], NaN, 400, 0]
   ]
 
   // Ghost history is an array which means it can not go back on itself
@@ -269,6 +277,20 @@ function game() {
       ghostCell = ghostCell + 1
       board[ghostRow][ghostCell].classList.add('ghost')
       console.log('ghost left - reverse!')
+    } else if ((board[ghostRow + 1][ghostCell].classList.value === 'empty ghost' || board[ghostRow + 1][ghostCell].classList.value === 'fruit ghost' || board[ghostRow + 1][ghostCell].classList.value === 'pill ghost')) {
+      board[ghostRow][ghostCell].classList.remove('ghost')
+      ghostHistory = []
+      ghostHistory.push(ghostRow, ghostCell)
+      ghostRow = ghostRow - 1
+      board[ghostRow][ghostCell].classList.add('ghost')
+      console.log('ghost down - reverse!')
+    } else if ((board[ghostRow][ghostCell + 1].classList.value === 'empty ghost' || board[ghostRow][ghostCell + 1].classList.value === 'fruit ghost' || board[ghostRow][ghostCell + 1].classList.value === 'pill ghost')) {
+      board[ghostRow][ghostCell].classList.remove('ghost')
+      ghostHistory = []
+      ghostHistory.push(ghostRow, ghostCell)
+      ghostCell = ghostCell - 1
+      board[ghostRow][ghostCell].classList.add('ghost')
+      console.log('ghost right - reverse!')
     } else {
       console.log('fail')
     }
@@ -553,40 +575,92 @@ function game() {
         let ghostRow = ele[0]
         let ghostCell = ele[1]
         let ghostHistory = ele[2]
-        let counter = 0
+        let counter = ele[5]
         if (life > 0) {
           if (ghostRow === pacmanRow) {
             if (ghostCell < pacmanCell) {
               ghostMoveRUDL(ghostRow, ghostCell, ghostHistory, ele)
-              counter++
+              ele[5]++
             } else {
               ghostMoveLDRU(ghostRow, ghostCell, ghostHistory, ele)
-              counter++
+              ele[5]++
             }
           } else if (counter % 2 === 1) {
             if (ghostCell < pacmanCell) {
               ghostMoveRUDL(ghostRow, ghostCell, ghostHistory, ele)
-              counter++
+              ele[5]++
             } else if (ghostCell > pacmanCell) {
               ghostMoveLDRU(ghostRow, ghostCell, ghostHistory, ele)
-              counter++
+              ele[5]++
             }
           }
           if (ghostCell === pacmanCell) {
             if (ghostRow > pacmanRow) {
               ghostMoveULDR(ghostRow, ghostCell, ghostHistory, ele)
-              counter++
+              ele[5]++
             } else {
               ghostMoveDRUL(ghostRow, ghostCell, ghostHistory, ele)
-              counter++
+              ele[5]++
             }
           } else if (counter % 2 === 0) {
             if (ghostRow > pacmanRow) {
               ghostMoveULDR(ghostRow, ghostCell, ghostHistory, ele)
-              counter++
+              ele[5]++
             } else {
               ghostMoveDRUL(ghostRow, ghostCell, ghostHistory, ele)
-              counter++
+              ele[5]++
+            }
+          }
+        } else {
+          clearInterval(ele[3])
+        }
+
+      }, ele[4])
+
+    })
+  }
+  // Best logic so far!!! Woop go 3
+  function ghostChase3() {
+    ghostAray.forEach((ele) => {
+      ele[3] = setInterval(() => {
+        let ghostRow = ele[0]
+        let ghostCell = ele[1]
+        let ghostHistory = ele[2]
+        let counter = ele[5]
+        console.log(counter)
+        if (life > 0) {
+          if (ghostRow === pacmanRow || ghostCell === pacmanCell) {
+            if (ghostRow === pacmanRow && ghostCell < pacmanCell) {
+              ghostMoveRUDL(ghostRow, ghostCell, ghostHistory, ele)
+              ele[5]++
+            }
+            if (ghostRow === pacmanRow && ghostCell > pacmanCell) {
+              ghostMoveLDRU(ghostRow, ghostCell, ghostHistory, ele)
+              ele[5]++
+            }
+            if (ghostCell === pacmanCell && ghostRow > pacmanRow) {
+              ghostMoveULDR(ghostRow, ghostCell, ghostHistory, ele)
+              ele[5]++
+            }
+            if (ghostCell === pacmanCell && ghostRow < pacmanRow) {
+              ghostMoveDRUL(ghostRow, ghostCell, ghostHistory, ele)
+              ele[5]++
+            }
+          } else if (counter % 2 === 1) {
+            if (ghostCell < pacmanCell) {
+              ghostMoveRUDL(ghostRow, ghostCell, ghostHistory, ele)
+              ele[5]++
+            } else if (ghostCell > pacmanCell) {
+              ghostMoveLDRU(ghostRow, ghostCell, ghostHistory, ele)
+              ele[5]++
+            }
+          } else if (counter % 2 === 0) {
+            if (ghostRow > pacmanRow) {
+              ghostMoveULDR(ghostRow, ghostCell, ghostHistory, ele)
+              ele[5]++
+            } else {
+              ghostMoveDRUL(ghostRow, ghostCell, ghostHistory, ele)
+              ele[5]++
             }
           }
         } else {
@@ -599,14 +673,14 @@ function game() {
   }
 
 
-
-  ghostChase2()
+  ghostChase3()
   //this logic is pretty good.
 
   //  need to reverse when pacman has a new class
+  //Update when the lives are viewed
 
-  // maybe place the ghosts at different locations
-  // Also need to do something for the run off for the ghosts, I recon we do not allow ghosts to run off
+
+  // Also need to do something for the run off for the ghosts, I recon we do not allow ghosts to run off . have changed class, just need to add it to pacmans movements
   // maybe something to do with starting Logic? 
 
   //NEED TO DO

@@ -90,3 +90,16 @@ div .ghostBase {
   height: 15.78px;
   width: 15.78px;
 }
+div div .activate {
+  flex-grow: 1;
+  height: 15.78px;
+  width: 15.78px;
+  background-color: yellow;
+  animation: Flash 0.5s infinite;
+}
+
+@keyframes Flash {
+  0%, 50% {
+    background-color: pink;
+  }
+}

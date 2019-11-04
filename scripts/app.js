@@ -42,10 +42,12 @@ function game() {
       case 3: {
         cell.classList.add('ghost')
         // cell.classList.add('ghostBase')
+        cell.classList.add('empty')
       } break
       case 4: cell.classList.add('pill'); break
       case 5: {
         cell.classList.add('pacman')
+        // cell.classList.add('empty')
         // cell.classList.add('activate')  
       } break
       case 6: cell.classList.add('wallGrey'); break
@@ -347,6 +349,8 @@ function game() {
         board[pacmanRow][pacmanCell].classList.remove('empty')
         board[pacmanRow][pacmanCell].classList.add('pacman')
       } else {
+        pacmanCell = 9
+        pacmanRow = 10
         board[10][9].classList.remove('empty')
         board[10][9].classList.add('pacman')
       }
@@ -453,6 +457,8 @@ function game() {
         board[pacmanRow][pacmanCell].classList.remove('empty')
         board[pacmanRow][pacmanCell].classList.add('pacman')
       } else {
+        pacmanCell = 9
+        pacmanRow = 10
         board[10][9].classList.remove('empty')
         board[10][9].classList.add('pacman')
       }
@@ -561,6 +567,8 @@ function game() {
         board[pacmanRow][pacmanCell].classList.remove('empty')
         board[pacmanRow][pacmanCell].classList.add('pacman')
       } else {
+        pacmanCell = 9
+        pacmanRow = 10
         board[10][9].classList.remove('empty')
         board[10][9].classList.add('pacman')
       }
@@ -670,6 +678,8 @@ function game() {
         board[pacmanRow][pacmanCell].classList.remove('empty')
         board[pacmanRow][pacmanCell].classList.add('pacman')
       } else {
+        pacmanCell = 9
+        pacmanRow = 10
         board[10][9].classList.remove('empty')
         board[10][9].classList.add('pacman')
       }

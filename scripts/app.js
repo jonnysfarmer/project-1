@@ -41,7 +41,7 @@ function game() {
       case 2: cell.classList.add('empty'); break
       case 3: {
         cell.classList.add('ghost')
-        cell.classList.add('ghostBase')
+        // cell.classList.add('ghostBase')
       } break
       case 4: cell.classList.add('pill'); break
       case 5: {
@@ -70,8 +70,8 @@ function game() {
       board.push(rows)
     })
   }
-  createBoard()
-  
+  // createBoard()
+
   // ----------PACMAN---------------
 
 
@@ -86,18 +86,27 @@ function game() {
   let pacIntervalID = NaN
   const speed = 200
   let ghostSpeed = 300
-  const startButton = document.querySelector('.start')
-  
+  let startButton = document.querySelector('.start')
+
 
   function endGame() {
     if (life === 0) {
       console.log('endgame')
       console.log(score)
-      startButton.innerHTML = `Start a new Game`
-      
+      grid.innerHTML = ''
+      const div = document.createElement('div')
+      div.classList.add('intro')
+      grid.appendChild(div)
+      const button = document.createElement('button')
+      button.classList.add('start')
+      div.appendChild(button)
+      startButton = document.querySelector('.start')
+      startButton.innerHTML = 'start a new game'
+      GO()
     }
 
   }
+  // let startButton = document.querySelector('.start')
 
   // move function - OLD, NOT INCLUDING PILL // OLD
   function pacmanMove(cellMove, rowMove, key) {
@@ -979,29 +988,35 @@ function game() {
   // const startButton = document.querySelector('.start')
 
   // This is my start Button
+  startButton = document.querySelector('.start')
 
-  startButton.addEventListener('mousedown', () => {
-    console.log('startgame')
-    grid.innerHTML = ''
-    board = []
-    createBoard()
-    life = 3
-    ghostAray = [
-      [10, 9, [10, 9], NaN, ghostSpeed, 0, [10, 9]],
-      [10, 8, [10, 8], NaN, (ghostSpeed + 50), 0, [10, 8]],
-      [10, 10, [10, 10], NaN, (ghostSpeed + 75), 0, [10, 10]]
-    ]
-    pacIntervalID = setInterval(() => {
-      const key = 'a'
-      // console.log('test')
-      const cellMove = pacmanCell - 1
-      const rowMove = pacmanRow
-      pacmanMoveActivate(cellMove, rowMove, key)
-    }, speed)
-    movement()
-    ghostChase4()
 
-  })
+  function GO() {
+    startButton.addEventListener('mousedown', () => {
+      console.log('startgame')
+      grid.innerHTML = ''
+      board = []
+      createBoard()
+      life = 3
+      ghostAray = [
+        [10, 9, [10, 9], NaN, ghostSpeed, 0, [10, 9]],
+        [10, 8, [10, 8], NaN, (ghostSpeed + 50), 0, [10, 8]],
+        [10, 10, [10, 10], NaN, (ghostSpeed + 75), 0, [10, 10]]
+      ]
+      pacIntervalID = setInterval(() => {
+        const key = 'a'
+        // console.log('test')
+        const cellMove = pacmanCell - 1
+        const rowMove = pacmanRow
+        pacmanMoveActivate(cellMove, rowMove, key)
+      }, speed)
+      movement()
+      ghostChase4()
+
+    })
+  }
+
+  GO()
 
 
 

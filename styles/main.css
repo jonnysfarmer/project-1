@@ -63,6 +63,12 @@ div .wall {
   flex-grow: 1;
   height: 15.78px;
   width: 15.78px;
+  background-color: black;
+}
+div .wallGrey {
+  flex-grow: 1;
+  height: 15.78px;
+  width: 15.78px;
   background-color: darkgrey;
 }
 div .fruit {
@@ -99,7 +105,8 @@ div .pacman {
   flex-grow: 1;
   height: 15.78px;
   width: 15.78px;
-  background-color: rgb(252, 210, 0)
+  background-color: rgb(252, 210, 0);
+  /* transition: all 0.2s ease-in-out */
 }
 div .ghostBase {
   flex-grow: 1;

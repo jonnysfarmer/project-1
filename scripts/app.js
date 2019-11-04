@@ -3,22 +3,22 @@ function game() {
   const pacmanBoard = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-    [0, 4, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 4, 0],
-    [0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0],
+    [0, 4, 1, 6, 1, 6, 6, 6, 1, 0, 1, 6, 6, 6, 1, 6, 1, 4, 0],
+    [0, 1, 6, 6, 1, 6, 6, 6, 1, 0, 1, 6, 6, 6, 1, 6, 6, 1, 0],
     [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-    [0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0],
-    [0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0],
-    [0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0],
-    [2, 2, 2, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 2, 2, 2],
-    [0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0],
-    [2, 2, 2, 0, 1, 1, 1, 0, 3, 3, 3, 0, 1, 1, 1, 0, 2, 2, 2],
-    [0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0],
-    [2, 2, 2, 0, 1, 0, 1, 1, 1, 5, 1, 1, 1, 0, 1, 0, 2, 2, 2],
-    [0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0],
+    [0, 1, 0, 0, 1, 1, 1, 6, 6, 6, 6, 6, 1, 1, 1, 0, 0, 1, 0],
+    [0, 1, 1, 1, 1, 0, 1, 1, 1, 6, 1, 1, 1, 0, 1, 1, 1, 1, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 1, 6, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0],
+    [0, 1, 6, 6, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 6, 6, 1, 0],
+    [0, 1, 6, 6, 1, 1, 1, 0, 3, 3, 3, 0, 1, 1, 1, 6, 6, 1, 0],
+    [0, 1, 6, 6, 1, 6, 1, 0, 0, 0, 0, 0, 1, 6, 1, 6, 6, 1, 0],
+    [0, 1, 6, 6, 1, 6, 1, 2, 2, 5, 2, 2, 2, 6, 1, 6, 6, 1, 0],
+    [0, 1, 1, 1, 1, 6, 1, 0, 0, 0, 0, 0, 1, 6, 1, 1, 1, 1, 0],
     [0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-    [0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0],
-    [0, 4, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 4, 0],
-    [0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0],
+    [0, 1, 6, 6, 1, 6, 6, 6, 1, 0, 1, 6, 6, 6, 1, 6, 6, 1, 0],
+    [0, 4, 1, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 6, 1, 4, 0],
+    [0, 6, 1, 6, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 6, 1, 6, 0],
     [0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0],
     [0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0],
     [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
@@ -48,7 +48,7 @@ function game() {
         cell.classList.add('pacman')
         // cell.classList.add('activate')  
       } break
-      case 6: cell.classList.add('ghostBase'); break
+      case 6: cell.classList.add('wallGrey'); break
     }
   }
   // Creates the actualy board from array. Does each Row, then elements in each cell 
@@ -343,7 +343,13 @@ function game() {
       board[ghostRow][ghostCell].classList.add('ghost')
       pacmanCell = 9
       pacmanRow = 12
-      board[pacmanRow][pacmanCell].classList.add('pacman')
+      if (board[pacmanRow][pacmanCell].classList.value === 'empty') {
+        board[pacmanRow][pacmanCell].classList.remove('empty')
+        board[pacmanRow][pacmanCell].classList.add('pacman')
+      } else {
+        board[10][9].classList.remove('empty')
+        board[10][9].classList.add('pacman')
+      }
       life = life - 1
       clearInterval(pacIntervalID)
       // endGame()
@@ -443,7 +449,13 @@ function game() {
       board[ghostRow][ghostCell].classList.add('ghost')
       pacmanCell = 9
       pacmanRow = 12
-      board[pacmanRow][pacmanCell].classList.add('pacman')
+      if (board[pacmanRow][pacmanCell].classList.value === 'empty') {
+        board[pacmanRow][pacmanCell].classList.remove('empty')
+        board[pacmanRow][pacmanCell].classList.add('pacman')
+      } else {
+        board[10][9].classList.remove('empty')
+        board[10][9].classList.add('pacman')
+      }
       life = life - 1
       clearInterval(pacIntervalID)
       // endGame()
@@ -545,7 +557,13 @@ function game() {
       board[ghostRow][ghostCell].classList.add('ghost')
       pacmanCell = 9
       pacmanRow = 12
-      board[pacmanRow][pacmanCell].classList.add('pacman')
+      if (board[pacmanRow][pacmanCell].classList.value === 'empty') {
+        board[pacmanRow][pacmanCell].classList.remove('empty')
+        board[pacmanRow][pacmanCell].classList.add('pacman')
+      } else {
+        board[10][9].classList.remove('empty')
+        board[10][9].classList.add('pacman')
+      }
       life = life - 1
       clearInterval(pacIntervalID)
       // endGame()
@@ -648,7 +666,13 @@ function game() {
       board[ghostRow][ghostCell].classList.add('ghost')
       pacmanCell = 9
       pacmanRow = 12
-      board[pacmanRow][pacmanCell].classList.add('pacman')
+      if (board[pacmanRow][pacmanCell].classList.value === 'empty') {
+        board[pacmanRow][pacmanCell].classList.remove('empty')
+        board[pacmanRow][pacmanCell].classList.add('pacman')
+      } else {
+        board[10][9].classList.remove('empty')
+        board[10][9].classList.add('pacman')
+      }
       life = life - 1
       clearInterval(pacIntervalID)
       // endGame()

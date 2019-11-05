@@ -3,12 +3,12 @@ function game() {
   const pacmanBoard = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-    [0, 4, 1, 6, 1, 6, 6, 6, 1, 0, 1, 6, 6, 6, 1, 6, 1, 4, 0],
+    [0, 1, 4, 6, 1, 6, 6, 6, 1, 0, 1, 6, 6, 6, 1, 6, 4, 1, 0],
     [0, 1, 6, 6, 1, 6, 6, 6, 1, 0, 1, 6, 6, 6, 1, 6, 6, 1, 0],
     [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-    [0, 1, 0, 0, 1, 1, 1, 6, 6, 6, 6, 6, 1, 1, 1, 0, 0, 1, 0],
+    [0, 1, 0, 0, 1, 1, 1, 1, 6, 6, 6, 1, 1, 1, 1, 0, 0, 1, 0],
     [0, 1, 1, 1, 1, 0, 1, 1, 1, 6, 1, 1, 1, 0, 1, 1, 1, 1, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 1, 6, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 1, 1, 6, 1, 1, 0, 0, 0, 0, 0, 0, 0],
     [0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0],
     [0, 1, 6, 6, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 6, 6, 1, 0],
     [0, 1, 6, 6, 1, 1, 1, 0, 3, 3, 3, 0, 1, 1, 1, 6, 6, 1, 0],
@@ -17,7 +17,7 @@ function game() {
     [0, 1, 1, 1, 1, 6, 1, 0, 0, 0, 0, 0, 1, 6, 1, 1, 1, 1, 0],
     [0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
     [0, 1, 6, 6, 1, 6, 6, 6, 1, 0, 1, 6, 6, 6, 1, 6, 6, 1, 0],
-    [0, 4, 1, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 6, 1, 4, 0],
+    [0, 1, 4, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 6, 4, 1, 0],
     [0, 6, 1, 6, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 6, 1, 6, 0],
     [0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0],
     [0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0],
@@ -318,7 +318,7 @@ function game() {
   // then it checks for pacmancell > Ghost cell.  Then more right.  If not, down, up, left and so on...
 
   //ghost array for ghost 1, 2 and 3!  They go Ghost Cell, Ghost Row, Ghost History, Nan is to clear the timers, Speed, counter, orginal location
-
+  // should of done this in an array for objects
   let ghostAray = [
     [10, 9, [10, 9], NaN, ghostSpeed, 0, [10, 9]],
     [10, 8, [10, 8], NaN, (ghostSpeed + 50), 0, [10, 8]],
@@ -327,7 +327,10 @@ function game() {
 
   // Ghost history is an array which means it can not go back on itself
 
+  
   // These are 4 functions, with the first move L, R, D, U - then function if it comes across Pacman or comes accross another Ghost
+  // These are pretty ineffecient, should of done a function for U D L R and used them individually.  Would of saved a lot of time
+  // This also includes my interaction logic.
   function ghostMoveULDR(ghostRow, ghostCell, ghostHistory, ele, orginalPos) {
 
     if ((board[ghostRow - 1][ghostCell].classList.value === 'pacman activate') || (board[ghostRow + 1][ghostCell].classList.value === 'pacman activate') || (board[ghostRow][ghostCell + 1].classList.value === 'pacman activate') || (board[ghostRow][ghostCell - 1].classList.value === 'pacman activate')) {
@@ -1034,6 +1037,8 @@ function game() {
       createBoard()
       life = 3
       score = 0
+      scoreDisplay.innerHTML = `Your Score is : ${score}`
+      lifeDisplay.innerHTML = `Number of lives : ${life}`
       ghostAray = [
         [10, 9, [10, 9], NaN, ghostSpeed, 0, [10, 9]],
         [10, 8, [10, 8], NaN, (ghostSpeed + 50), 0, [10, 8]],

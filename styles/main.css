@@ -53,7 +53,7 @@ div {
 div.results {
   display: flex;
   flex-direction: column;
-  background-image: url('../Images/nameplate.png');
+  background-image: url('Images/nameplate.png');
   background-repeat: no-repeat;
   margin: 20px 10px 10px 10px;
   background-position: center;
@@ -129,7 +129,7 @@ div div .activate {
 }
 .intro {
   align-items: center;
-  background-image: url('../Images/rsz_composition-c.jpg');
+  background-image: url('Images/rsz_composition-c.jpg');
   display: flex;
   flex-grow: 1;
   flex-wrap: wrap;
@@ -145,7 +145,7 @@ div div .activate {
   text-align: center;
   color: black;
   font-family: 'Cinzel', serif;
-  font-size: 10px;
+  font-size: 12px;
   /* font-weight: bold; */
 }
 .score {

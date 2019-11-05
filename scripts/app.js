@@ -41,15 +41,10 @@ function game() {
       case 2: cell.classList.add('empty'); break
       case 3: {
         cell.classList.add('ghost')
-        // cell.classList.add('ghostBase')
         cell.classList.add('empty')
       } break
       case 4: cell.classList.add('pill'); break
-      case 5: {
-        cell.classList.add('pacman')
-        // cell.classList.add('empty')
-        // cell.classList.add('activate')  
-      } break
+      case 5: cell.classList.add('pacman');  break
       case 6: cell.classList.add('wallGrey'); break
     }
   }
@@ -61,12 +56,10 @@ function game() {
       const rows = []
       row.classList.add(`row${i}`)
       grid.appendChild(row)
-      // console.log(row)
       ele.forEach((inele) => {
         const cell = document.createElement('div')
         assignCellClass(inele, cell)
         row.appendChild(cell)
-        // console.log(cell)
         rows.push(cell)
       })
       board.push(rows)
@@ -927,8 +920,8 @@ function game() {
         let ghostHistory = ele[2]
         let counter = ele[5]
         let orginalPos = ele[6]
-        console.log(counter)
-        if (life > 0 && score < 250) {
+        // console.log(counter)
+        if (life > 0 && score < 245) {
           if (board[pacmanRow][pacmanCell].classList.value === 'pacman' || board[pacmanRow][pacmanCell].classList.value === 'empty pacman') {
             if (ghostRow === pacmanRow || ghostCell === pacmanCell) {
               if (ghostRow === pacmanRow && ghostCell < pacmanCell) {

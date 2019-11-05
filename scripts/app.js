@@ -13,7 +13,7 @@ function game() {
     [0, 1, 6, 6, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 6, 6, 1, 0],
     [0, 1, 6, 6, 1, 1, 1, 0, 3, 3, 3, 0, 1, 1, 1, 6, 6, 1, 0],
     [0, 1, 6, 6, 1, 6, 1, 0, 0, 0, 0, 0, 1, 6, 1, 6, 6, 1, 0],
-    [0, 1, 6, 6, 1, 6, 1, 2, 2, 5, 2, 2, 2, 6, 1, 6, 6, 1, 0],
+    [0, 1, 6, 6, 1, 6, 1, 2, 2, 5, 2, 2, 1, 6, 1, 6, 6, 1, 0],
     [0, 1, 1, 1, 1, 6, 1, 0, 0, 0, 0, 0, 1, 6, 1, 1, 1, 1, 0],
     [0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
     [0, 1, 6, 6, 1, 6, 6, 6, 1, 0, 1, 6, 6, 6, 1, 6, 6, 1, 0],
@@ -26,7 +26,7 @@ function game() {
   ]
 
   // idea for design ‘Composition C (No.III) with Red, Yellow and Blue’ – Piet Mondrian, 1935
-
+  // 0 16 6 6 17 10 14 4 15 11 8 6 6 10 16 6 13 6 14 4 16 max score + 40 = 250
   //---------BOARD CREATION----------------
   let board = []
   const grid = document.querySelector('.grid')
@@ -928,7 +928,7 @@ function game() {
         let counter = ele[5]
         let orginalPos = ele[6]
         console.log(counter)
-        if (life > 0) {
+        if (life > 0 && score < 250) {
           if (board[pacmanRow][pacmanCell].classList.value === 'pacman' || board[pacmanRow][pacmanCell].classList.value === 'empty pacman') {
             if (ghostRow === pacmanRow || ghostCell === pacmanCell) {
               if (ghostRow === pacmanRow && ghostCell < pacmanCell) {

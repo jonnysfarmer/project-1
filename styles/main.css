@@ -82,7 +82,8 @@ div .fruit {
   align-content: center; */
   justify-content: center;
   align-items: center;
-  color:  rgb(44,3,143)
+  color:  rgb(44,3,143);
+  padding: 0.39px
 }
 div .empty {
   flex-grow: 1;
@@ -94,7 +95,8 @@ div div .ghost {
   flex-grow: 1;
   height: 15.78px;
   width: 15.78px;
-  background-color: rgb(249, 0, 0)
+  background-color: rgb(249, 0, 0);
+  color: rgb(249, 0, 0)
 }
 div .pill {
   flex-grow: 1;
@@ -129,7 +131,7 @@ div div .activate {
 }
 .intro {
   align-items: center;
-  background-image: url('../Images/rsz_composition-c.jpg');
+  background-image: url('../Images/rsz_composition-c.png');
   display: flex;
   flex-grow: 1;
   flex-wrap: wrap;

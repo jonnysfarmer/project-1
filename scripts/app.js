@@ -87,8 +87,8 @@ function game() {
   // go function
   function endGame() {
     if (life === 0) {
-      console.log('endgame')
-      console.log(score)
+      // console.log('endgame')
+      // console.log(score)
       grid.innerHTML = ''
       const div = document.createElement('div')
       div.classList.add('intro')
@@ -161,7 +161,7 @@ function game() {
 
   //New move function that adds the active function for 5000 ms if it goes over a pill!
   function pacmanMoveActivate(cellMove, rowMove, key) {
-    console.log(board[pacmanRow][pacmanCell].classList.value)
+    // console.log(board[pacmanRow][pacmanCell].classList.value)
     if (board[pacmanRow][pacmanCell].classList.value === 'pacman' || board[pacmanRow][pacmanCell].classList.value === 'empty pacman') {
 
       if (board[rowMove][cellMove].classList.value === 'wall') {
@@ -193,7 +193,7 @@ function game() {
         setTimeout(() => {
           board[pacmanRow][pacmanCell].classList.remove('activate')
         }, 10000)
-        console.log('active')
+        // console.log('active')
         score = score + 10
         // Add a new class that makes it FLASH
       } else if (board[rowMove][cellMove].classList.value === 'empty ghost' || board[rowMove][cellMove].classList.value === 'fruit ghost' || board[rowMove][cellMove].classList.value === 'pill ghost') {
@@ -353,7 +353,7 @@ function game() {
       life = life - 1
       clearInterval(pacIntervalID)
       // endGame()
-      console.log('pacman Up')
+      // console.log('pacman Up')
 
     } else if (((board[ghostRow - 1][ghostCell].classList.value === 'empty') || (board[ghostRow - 1][ghostCell].classList.value === 'fruit') || (board[ghostRow - 1][ghostCell].classList.value === 'pill')) && ((ghostRow - 1 !== ghostHistory[0]))) {
       board[ghostRow][ghostCell].classList.remove('ghost')
@@ -398,7 +398,7 @@ function game() {
       board[ghostRow][ghostCell].classList.add('ghost')
       ghostHistory = []
       ghostHistory.push(ghostRow + 1, ghostCell)
-      console.log('ghost Up - reverse!')
+      // console.log('ghost Up - reverse!')
     } else if ((board[ghostRow][ghostCell - 1].classList.value === 'empty ghost' || board[ghostRow][ghostCell - 1].classList.value === 'fruit ghost' || board[ghostRow][ghostCell - 1].classList.value === 'pill ghost')) {
       board[ghostRow][ghostCell].classList.remove('ghost')
       ghostRow = ghostHistory[0]
@@ -406,7 +406,7 @@ function game() {
       board[ghostRow][ghostCell].classList.add('ghost')
       ghostHistory = []
       ghostHistory.push(ghostRow, ghostCell + 1)
-      console.log('ghost left - reverse!')
+      // console.log('ghost left - reverse!')
     } else if ((board[ghostRow + 1][ghostCell].classList.value === 'empty ghost' || board[ghostRow + 1][ghostCell].classList.value === 'fruit ghost' || board[ghostRow + 1][ghostCell].classList.value === 'pill ghost')) {
       board[ghostRow][ghostCell].classList.remove('ghost')
       ghostRow = ghostHistory[0]
@@ -414,7 +414,7 @@ function game() {
       board[ghostRow][ghostCell].classList.add('ghost')
       ghostHistory = []
       ghostHistory.push(ghostRow - 1, ghostCell)
-      console.log('ghost down - reverse!')
+      // console.log('ghost down - reverse!')
     } else if ((board[ghostRow][ghostCell + 1].classList.value === 'empty ghost' || board[ghostRow][ghostCell + 1].classList.value === 'fruit ghost' || board[ghostRow][ghostCell + 1].classList.value === 'pill ghost')) {
       board[ghostRow][ghostCell].classList.remove('ghost')
       ghostRow = ghostHistory[0]
@@ -423,7 +423,7 @@ function game() {
       ghostHistory = []
       ghostHistory.push(ghostRow, ghostCell - 1)
     } else {
-      console.log('fail')
+      // console.log('fail')
     }
 
 
@@ -461,7 +461,7 @@ function game() {
       life = life - 1
       clearInterval(pacIntervalID)
       // endGame()
-      console.log('pacman Up')
+      // console.log('pacman Up')
 
     } else if (((board[ghostRow][ghostCell - 1].classList.value === 'empty') || (board[ghostRow][ghostCell - 1].classList.value === 'fruit') || (board[ghostRow][ghostCell - 1].classList.value === 'pill')) && (ghostCell - 1 !== ghostHistory[1])) {
       board[ghostRow][ghostCell].classList.remove('ghost')
@@ -512,7 +512,7 @@ function game() {
       life = life - 1
       clearInterval(pacIntervalID)
       // endGame()
-      console.log('pacman to left')
+      // console.log('pacman to left')
     } else if ((board[ghostRow - 1][ghostCell].classList.value === 'pacman activate') || (board[ghostRow + 1][ghostCell].classList.value === 'pacman activate') || (board[ghostRow][ghostCell + 1].classList.value === 'pacman activate') || (board[ghostRow][ghostCell - 1].classList.value === 'pacman activate')) {
       board[ghostRow][ghostCell].classList.remove('ghost')
       ghostRow = orginalPos[0]
@@ -526,7 +526,7 @@ function game() {
       board[ghostRow][ghostCell].classList.add('ghost')
       ghostHistory = []
       ghostHistory.push(ghostRow + 1, ghostCell)
-      console.log('ghost left - reverse!')
+      // console.log('ghost left - reverse!')
     } else if ((board[ghostRow + 1][ghostCell].classList.value === 'empty ghost' || board[ghostRow + 1][ghostCell].classList.value === 'fruit ghost' || board[ghostRow + 1][ghostCell].classList.value === 'pill ghost')) {
       board[ghostRow][ghostCell].classList.remove('ghost')
       ghostRow = ghostHistory[0]
@@ -535,7 +535,7 @@ function game() {
       ghostHistory = []
       ghostHistory.push(ghostRow - 1, ghostCell)
     } else {
-      console.log('fail')
+      // console.log('fail')
     }
     ele[0] = ghostRow
     ele[1] = ghostCell
@@ -571,7 +571,7 @@ function game() {
       life = life - 1
       clearInterval(pacIntervalID)
       // endGame()
-      console.log('pacman Up')
+      // console.log('pacman Up')
 
     } else if (((board[ghostRow + 1][ghostCell].classList.value === 'empty') || (board[ghostRow + 1][ghostCell].classList.value === 'fruit') || (board[ghostRow + 1][ghostCell].classList.value === 'pill')) && (ghostRow + 1 !== ghostHistory[0])) {
       board[ghostRow][ghostCell].classList.remove('ghost')
@@ -622,7 +622,7 @@ function game() {
       life = life - 1
       clearInterval(pacIntervalID)
       // endGame()
-      console.log('pacman down')
+      // console.log('pacman down')
     } else if ((board[ghostRow - 1][ghostCell].classList.value === 'pacman activate') || (board[ghostRow + 1][ghostCell].classList.value === 'pacman activate') || (board[ghostRow][ghostCell + 1].classList.value === 'pacman activate') || (board[ghostRow][ghostCell - 1].classList.value === 'pacman activate')) {
       board[ghostRow][ghostCell].classList.remove('ghost')
       ghostRow = orginalPos[0]
@@ -636,7 +636,7 @@ function game() {
       board[ghostRow][ghostCell].classList.add('ghost')
       ghostHistory = []
       ghostHistory.push(ghostRow - 1, ghostCell)
-      console.log('ghost down - reverse!')
+      // console.log('ghost down - reverse!')
     } else if ((board[ghostRow][ghostCell + 1].classList.value === 'empty ghost' || board[ghostRow][ghostCell + 1].classList.value === 'fruit ghost' || board[ghostRow][ghostCell + 1].classList.value === 'pill ghost')) {
       board[ghostRow][ghostCell].classList.remove('ghost')
       ghostRow = ghostHistory[0]
@@ -644,9 +644,9 @@ function game() {
       board[ghostRow][ghostCell].classList.add('ghost')
       ghostHistory = []
       ghostHistory.push(ghostRow, ghostCell - 1)
-      console.log('ghost right - reverse!')
+      // console.log('ghost right - reverse!')
     } else {
-      console.log('fail')
+      // console.log('fail')
     }
     ele[0] = ghostRow
     ele[1] = ghostCell
@@ -682,7 +682,7 @@ function game() {
       life = life - 1
       clearInterval(pacIntervalID)
       // endGame()
-      console.log('pacman Up')
+      // console.log('pacman Up')
 
     } else if (((board[ghostRow][ghostCell + 1].classList.value === 'empty') || (board[ghostRow][ghostCell + 1].classList.value === 'fruit') || (board[ghostRow][ghostCell + 1].classList.value === 'pill')) && (ghostCell + 1 !== ghostHistory[1])) {
       board[ghostRow][ghostCell].classList.remove('ghost')
@@ -733,7 +733,7 @@ function game() {
       life = life - 1
       clearInterval(pacIntervalID)
       // endGame()
-      console.log('pacman to right')
+      // console.log('pacman to right')
     } else if ((board[ghostRow - 1][ghostCell].classList.value === 'pacman activate') || (board[ghostRow + 1][ghostCell].classList.value === 'pacman activate') || (board[ghostRow][ghostCell + 1].classList.value === 'pacman activate') || (board[ghostRow][ghostCell - 1].classList.value === 'pacman activate')) {
       board[ghostRow][ghostCell].classList.remove('ghost')
       ghostRow = orginalPos[0]
@@ -747,7 +747,7 @@ function game() {
       board[ghostRow][ghostCell].classList.add('ghost')
       ghostHistory = []
       ghostHistory.push(ghostRow, ghostCell - 1)
-      console.log('ghost right - reverse!')
+      // console.log('ghost right - reverse!')
     } else if ((board[ghostRow - 1][ghostCell].classList.value === 'empty ghost' || board[ghostRow - 1][ghostCell].classList.value === 'fruit ghost' || board[ghostRow - 1][ghostCell].classList.value === 'pill ghost')) {
       board[ghostRow][ghostCell].classList.remove('ghost')
       ghostRow = ghostHistory[0]
@@ -756,7 +756,7 @@ function game() {
       ghostHistory = []
       ghostHistory.push(ghostRow + 1, ghostCell)
     } else {
-      console.log('fail')
+      // console.log('fail')
     }
     ele[0] = ghostRow
     ele[1] = ghostCell
@@ -867,7 +867,7 @@ function game() {
         let ghostCell = ele[1]
         let ghostHistory = ele[2]
         let counter = ele[5]
-        console.log(counter)
+        // console.log(counter)
         if (life > 0) {
           if (ghostRow === pacmanRow || ghostCell === pacmanCell) {
             if (ghostRow === pacmanRow && ghostCell < pacmanCell) {
@@ -1024,7 +1024,7 @@ function game() {
 
   function GO() {
     startButton.addEventListener('mousedown', () => {
-      console.log('startgame')
+      // console.log('startgame')
       grid.innerHTML = ''
       board = []
       createBoard()

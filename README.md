@@ -1,8 +1,8 @@
-# Project One : Modern Art PAC-MAN
+# Project One : PAC-MAN
 
 
 ## Overview
-Composition PAC-MAN (No.I) with Red, Yellow and Blue’ is a browser based arcade style game based on the original PAC-MAN.  The challenge is to get all of the pips whilst avoiding the Ghosts.
+My first project was is a browser based arcade style game based on the original PAC-MAN.  The challenge is to get all of the pips whilst avoiding the Ghosts.
 
 This was my first project from General Assembely Software Engineering Immersive course. It was an individual project that I build within a week, and was both my first game I had built.
 

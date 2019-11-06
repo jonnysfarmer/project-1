@@ -6,7 +6,8 @@ Composition PAC-MAN (No.I) with Red, Yellow and Blue’ is a browser based arcad
 
 This was my first project from General Assembely Software Engineering Immersive course. It was an individual project that I build within a week, and was both my first game I had built.
 
-LINKS TO GITHUB, WHEN THEY WORK...
+Launch on [GitHub Pages](https://jonnysfarmer.github.io/project-1/).  Check out the GitHub [Repo](https://github.com/jonnysfarmer/project-1).
+
 
 ## Brief
 * Render a grid-based game in the browser
@@ -107,9 +108,9 @@ My styling inspiration came from a recent trip to the Tate Modern, 'Composition 
 On game completion (loss of all lives, or hitting total score), the picture then comes back up displaying your score.  If you click on the picture, it resets the board and allows you to play again.
 
 
-## Code Snippets
-
 ## Screenshots
+![Front-page](Images/Screenshot-front-page.png)
+![Game-play](Images/Screenshot-gameplay.png)
 
 ## Wins & Blockers
 Overall I really enjoyed this project.  It was a steep learning curve going from learning individual functions to a project like this.  I now fully apprecaite the use of Psydoscde but found it interesting.

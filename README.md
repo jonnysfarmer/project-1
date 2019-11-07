@@ -2,9 +2,9 @@
 
 
 ## Overview
-My first project was is a browser based arcade style game based on the original PAC-MAN.  The challenge is to get all of the pips whilst avoiding the Ghosts.
+My first project is a browser based arcade style game based on the original PAC-MAN.  The challenge is to get all of the pips whilst avoiding the Ghosts.
 
-This was my first project from General Assembely Software Engineering Immersive course. It was an individual project that I build within a week, and was both my first game I had built.
+This was my first project from General Assembely Software Engineering Immersive course. It was an individual project that I build within a week, and was also my first game I had ever built.
 
 Launch on [GitHub Pages](https://jonnysfarmer.github.io/project-1/).  Check out the GitHub [Repo](https://github.com/jonnysfarmer/project-1).
 
@@ -32,7 +32,7 @@ I initiall planned out my grid by using an array of arrays generating divs withi
 
 Depending on the number within the array, the div would then be given a specific class.  This would either be 'wall', 'empty', 'fruit', 'pill', 'ghost' or 'pacman'.  This was assigned using a Switch function.
 
-This allowed me to easily manipulate my game board and create new ones if wanted in the future.  This was done by using a forEach, within a forEach (which although not great for the Big O, was fine for a pre defined board size).  
+This allowed me to easily manipulate my game board and create new ones if I wanted to in the future.  This was done by using a forEach, within a forEach (which although not great for the Big O, was fine for a pre defined board size).  
 
 ```javascript
   function createBoard() {
@@ -72,7 +72,7 @@ This allowed me to easily manipulate my game board and create new ones if wanted
 
 
 ### PAC-MAN
-PAC-MAN's movement was created by using a keyup event listener.  one the w,a,s,d keys being pressed it would create a setInterval function moving the PAC-MAN at a defined speed at in that directon before until another key is pressed or it hits an obsticle.  
+PAC-MAN's movement was created by using a keyup event listener.  onece the w,a,s,d keys had been pressed it would create a setInterval function moving the PAC-MAN at a defined speed at in that directon until another key is pressed or it hits an obsticle.  
 
 Depending on the class of the next grid tile you are attempting to move to, PAC-MAN replaces that, gaining 1 point for every 'fruit' eaten, loosing a life and respawning for every 'ghost' hit and gaining an additional class (removed after a specific time period using a setTimer function) of 'activate' when a pill is eaten.  During this time PAC-MAN can attack the ghosts causing them to respawn at their start location.
 
@@ -82,11 +82,11 @@ If PAC-MAN hits a Ghost, he respawns at his original point (with a reserve point
 #### Movement & the chase
 The basic movement function of the Ghosts were simple.  I made the class Ghost more specific than than of 'empty' or 'fruit' so it did not need to replace it like that of PAC-MAN.
 
-The logic of the chase.  The Ghosts have 4 different movement functions with a specific order.  ULDR (Up, Right, Down, Left), with this function, the Ghost will always try and move up first, if that is not possible, it will then try move Right and so on.  The other functions are LDRU, DRUL, RULD. 
+The Ghosts have 4 different movement functions with a specific order.  With the ULDR (Up, Left, Down, Right) function, the Ghost will always try and move up first, if that is not possible, it will then try move Right and so on.  The other functions are LDRU, DRUL, RULD. 
 
 The logic is that if the Ghost is on the same Row or Column as Pacman - it will always chase it directly.
 
-If it is not, there is a counter.  Every multiple of 2 it will try and move vertically towards it, and every odd number it will try and move horizontally towards PAC-MAN.  This creates a chase function with some random variance.  The Ghosts also push their last co-ordinates to an array and are not allowed to go back on themselves (similar to the original PAC-MAN).
+If it is not, there is a counter.  Every multiple of 2 the Ghost will try and move vertically towards PAC-MAN, and every odd number it will try and move horizontally towards PAC-MAN.  This creates a chase function with some random variance.  The Ghosts also push their last co-ordinates to an array and are not allowed to go back on themselves (similar to the original PAC-MAN).
 
 This logic reverses when PAC-MAN has the class of 'activate' once he eats a pill.  The Ghosts then actively run away from PAC-MAN to avoid being eaten.  
 
@@ -94,7 +94,7 @@ All Ghosts have the same logic, but slightly different starting points (in the G
 
 #### Interactions
 ##### Ghost - Ghost
-When interaacting with other Ghosts, they promptly reverse to their last position (which was logged in their history array), and their history is then updated with their last position meaning unless they hit another Ghost, they can not go back on themselves again.  This works succesfully.
+When interaacting with other Ghosts, they promptly reverse to their last position (which was logged in their history array), and their history is then updated with their last position meaning unless they hit another Ghost, they can not go back on themselves again.  They then continue the chase.
 ##### Ghost - PAC-MAN
 If it is the Ghosts turn to move and PAC-MAN (without the activate class) is in a adjacent valid square, the Ghost will automatically move to that square, this causes PAC-MAN to respawn at its start location (with a reserve if that already has a Ghost on it), and loose a life.
 
@@ -103,7 +103,7 @@ When PAC-MAN looses all 3 lives, this is the end of the game.
 If PAC-MAN manages to catch up with the Ghosts whist he has the 'activate' class on him (ie. after eating a blue pill), this will cause the Ghost to respawn at its original location.
 
 ### Styling
-My styling inspiration came from a recent trip to the Tate Modern, 'Composition C (No.III) with Red, Yellow and Blue'.  I decided on a simplistic design, with the picture in a CSS designed frame, which than transforms into my board using the same colour palette.  The instructions, score and life variables are then displayed on a picture description sytle plaque underneath.
+My styling inspiration came from a recent trip to the Tate Modern, 'Composition C (No.III) with Red, Yellow and Blue'.  I decided on a simplistic design, with the picture in a CSS designed frame, which then transforms into my board using the same colour palette.  The instructions, score and life variables are then displayed on a picture description sytle plaque underneath.
 
 On game completion (loss of all lives, or hitting total score), the picture then comes back up displaying your score.  If you click on the picture, it resets the board and allows you to play again.
 
@@ -113,13 +113,13 @@ On game completion (loss of all lives, or hitting total score), the picture then
 ![Game-play](Images/Screenshot-gameplay.png)
 
 ## Wins & Blockers
-Overall I really enjoyed this project.  It was a steep learning curve going from learning individual functions to a project like this.  I now fully apprecaite the use of Psydoscde but found it interesting.
+Overall I really enjoyed this project.  It was a steep learning curve going from learning individual functions to a project like this.  I now fully apprecaite the use of Pseudocode but found it interesting.
 I rewrote my ghost movement logic 4 times to improve my Ghost movements and know in hindsight I could of done this in a lot more efficient code (and still intend to go back and refractor at some point).  
 I had to rewrite my ghost - ghost interaction a few times, as it sometimes went through walls (which is now fixed).
 
 ## Future Features
-* Have a permenant saved scoreboard using local storage
-* Multiple maps / grid layouts
+* Have a saved scoreboard using local storage.  I have written a function for this, just need to implement it.
+* Multiple maps / grid layouts.  I was thinking to create a gallary in a banner were you can scroll to different pictures and play a PAC-MAAN inspired game based on that image.
 * easy / medium / hard mode with different numbers of ghosts and/or speeds
 
 

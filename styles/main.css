@@ -141,6 +141,7 @@ div div .activate {
   width: 300px;
   position:relative;
   text-align:center;
+  /* opacity: 0.5; */
 
 }
 .score, .life {
@@ -166,4 +167,8 @@ button {
   font-size: 14px;
   text-align: right;
   padding: 10px;
+
+}
+div .intro .after {
+  background:rgba(232, 239, 233,0.3);
 }

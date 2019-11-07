@@ -137,13 +137,9 @@ PLAYER MOVE
 
 
 
-Pacman.WALL    = 0;
-Pacman.BISCUIT = 1;
-Pacman.EMPTY   = 2;
-Pacman.BLOCK   = 3;
-Pacman.PILL    = 4;
 
-Pacman.MAP = [
+
+Pacman = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	[0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
 	[0, 4, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 4, 0],
